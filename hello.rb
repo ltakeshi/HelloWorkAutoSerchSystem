@@ -16,8 +16,8 @@ agent.log = Logger.new('hello.log')
 page = agent.get("https://www.hellowork.go.jp/servicef/130020.do?action=initDisp&screenId=130020")
 #puts agent.page.title
 agent.user_agent_alias = 'Linux Firefox'
-#agent.ca_file = '/home/takeshi/hello/JPGov.pem'
-#agent.cert = '/home/takeshi/hello/JPGov.pem'
+agent.ca_file = '/home/takeshi/hello/JPGov.pem'
+agent.cert = '/home/takeshi/hello/JPGov.pem'
 
 agent.page.form_with(:name => 'mainForm'){|form|
 #求職登録有無
