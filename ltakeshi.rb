@@ -24,12 +24,12 @@ agent.page.form_with(:name => 'mainForm'){|form|
 #ラジオボタン
   form.radiobuttons_with(:name => 'q1')[0].check
 #チェックボックス
-  form.checkbox_with(:text => /その1/).check
+  form.checkbox_with(:value => /1/).check
 #セレクトメニュー
   form.field_with(:name => 'select'){|list|
     list.value = "サンプル1"
   }
-  agent.page.forms[0].click_button # 検索
+  agent.page.forms[0].click_button # ``送信する"を押す
 
   puts agent.page.body
 }

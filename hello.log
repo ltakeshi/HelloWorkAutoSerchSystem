@@ -1,0 +1,70 @@
+# Logfile created on Mon Jan 23 11:19:25 +0900 2012 by logger.rb/1.2.6
+I, [2012-01-23T11:19:25.839734 #22754]  INFO -- : Net::HTTP::Get: /servicef/130020.do?action=initDisp&screenId=130020
+D, [2012-01-23T11:19:25.839863 #22754] DEBUG -- : request-header: accept-language => en-us,en;q=0.5
+D, [2012-01-23T11:19:25.839925 #22754] DEBUG -- : request-header: accept => */*
+D, [2012-01-23T11:19:25.839985 #22754] DEBUG -- : request-header: user-agent => WWW-Mechanize/1.0.0 (http://rubyforge.org/projects/mechanize/)
+D, [2012-01-23T11:19:25.840045 #22754] DEBUG -- : request-header: connection => keep-alive
+D, [2012-01-23T11:19:25.840103 #22754] DEBUG -- : request-header: accept-encoding => gzip,identity
+D, [2012-01-23T11:19:25.840160 #22754] DEBUG -- : request-header: host => www.hellowork.go.jp
+D, [2012-01-23T11:19:25.840217 #22754] DEBUG -- : request-header: accept-charset => ISO-8859-1,utf-8;q=0.7,*;q=0.7
+D, [2012-01-23T11:19:25.840274 #22754] DEBUG -- : request-header: keep-alive => 300
+D, [2012-01-23T11:19:25.877363 #22754] DEBUG -- : Read 1087 bytes
+D, [2012-01-23T11:19:25.877725 #22754] DEBUG -- : Read 2447 bytes
+D, [2012-01-23T11:19:25.878362 #22754] DEBUG -- : Read 3807 bytes
+D, [2012-01-23T11:19:25.898285 #22754] DEBUG -- : Read 4071 bytes
+D, [2012-01-23T11:19:25.899750 #22754] DEBUG -- : Read 5431 bytes
+D, [2012-01-23T11:19:25.921080 #22754] DEBUG -- : Read 8192 bytes
+D, [2012-01-23T11:19:25.921527 #22754] DEBUG -- : Read 9546 bytes
+D, [2012-01-23T11:19:25.943893 #22754] DEBUG -- : Read 15426 bytes
+D, [2012-01-23T11:19:25.944226 #22754] DEBUG -- : Read 16384 bytes
+D, [2012-01-23T11:19:25.944333 #22754] DEBUG -- : Read 16778 bytes
+D, [2012-01-23T11:19:25.945051 #22754] DEBUG -- : Read 19498 bytes
+D, [2012-01-23T11:19:25.945374 #22754] DEBUG -- : Read 20858 bytes
+D, [2012-01-23T11:19:25.966383 #22754] DEBUG -- : Read 24576 bytes
+D, [2012-01-23T11:19:25.966497 #22754] DEBUG -- : Read 26290 bytes
+D, [2012-01-23T11:19:25.966821 #22754] DEBUG -- : Read 27650 bytes
+D, [2012-01-23T11:19:25.967140 #22754] DEBUG -- : Read 28787 bytes
+D, [2012-01-23T11:19:25.967266 #22754] DEBUG -- : response-header: connection => close
+D, [2012-01-23T11:19:25.967330 #22754] DEBUG -- : response-header: content-type => text/html;charset=UTF-8
+D, [2012-01-23T11:19:25.967389 #22754] DEBUG -- : response-header: date => Mon, 23 Jan 2012 02:19:25 GMT
+D, [2012-01-23T11:19:25.967449 #22754] DEBUG -- : response-header: set-cookie => JSESSIONID=70QM6DB668O32PB36GRJ2P1L6CRM6P9PCGSJACPO71IJ48AVBG43A08003E00000.OCP_APPLICATION_005; Path=/servicef
+D, [2012-01-23T11:19:25.967509 #22754] DEBUG -- : response-header: transfer-encoding => chunked
+D, [2012-01-23T11:19:25.968032 #22754] DEBUG -- : saved cookie: JSESSIONID=70QM6DB668O32PB36GRJ2P1L6CRM6P9PCGSJACPO71IJ48AVBG43A08003E00000.OCP_APPLICATION_005
+I, [2012-01-23T11:19:25.968161 #22754]  INFO -- : status: 200
+D, [2012-01-23T11:19:25.995702 #22754] DEBUG -- : query: "kyushokuNumber1=34050&kyushokuNumber2=1437913&gekkyuKagen=180000&teate=1&jikyuKagen=&kiboShokushu=A&todofuken1=26&chiku1=&todofuken2=27&chiku2=&todofuken3=28&chiku3=&todofuken4=33&chiku4=&todofuken5=34&chiku5=&nenrei=26&kiboSangyo=G&saishuGakureki=&screenId=130020&action=&codeAssistType=&codeAssistKind=&codeAssistCode=&codeAssistItemCode=&codeAssistItemName=&codeAssistDivide=&xab_vrbs=commonNextScreen%2CcommonSearch%2CdetailSearchButton&kyushokuUmu=1&kyujinShurui=1&commonNextScreen=%E8%A9%B3%E7%B4%B0%E6%9D%A1%E4%BB%B6%E5%85%A5%E5%8A%9B"
+I, [2012-01-23T11:19:25.996330 #22754]  INFO -- : Net::HTTP::Post: /servicef/130020.do
+D, [2012-01-23T11:19:25.996373 #22754] DEBUG -- : request-header: accept-language => en-us,en;q=0.5
+D, [2012-01-23T11:19:25.996407 #22754] DEBUG -- : request-header: accept => */*
+D, [2012-01-23T11:19:25.996440 #22754] DEBUG -- : request-header: content-type => application/x-www-form-urlencoded
+D, [2012-01-23T11:19:25.996473 #22754] DEBUG -- : request-header: user-agent => Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.1) Gecko/20100122 firefox/3.6.1
+D, [2012-01-23T11:19:25.996506 #22754] DEBUG -- : request-header: connection => keep-alive
+D, [2012-01-23T11:19:25.996551 #22754] DEBUG -- : request-header: accept-encoding => gzip,identity
+D, [2012-01-23T11:19:25.996585 #22754] DEBUG -- : request-header: content-length => 541
+D, [2012-01-23T11:19:25.996617 #22754] DEBUG -- : request-header: referer => https://www.hellowork.go.jp/servicef/130020.do?action=initDisp&screenId=130020
+D, [2012-01-23T11:19:25.996650 #22754] DEBUG -- : request-header: cookie => JSESSIONID=70QM6DB668O32PB36GRJ2P1L6CRM6P9PCGSJACPO71IJ48AVBG43A08003E00000.OCP_APPLICATION_005
+D, [2012-01-23T11:19:25.996683 #22754] DEBUG -- : request-header: host => www.hellowork.go.jp
+D, [2012-01-23T11:19:25.996716 #22754] DEBUG -- : request-header: accept-charset => ISO-8859-1,utf-8;q=0.7,*;q=0.7
+D, [2012-01-23T11:19:25.996748 #22754] DEBUG -- : request-header: keep-alive => 300
+D, [2012-01-23T11:19:26.246199 #22754] DEBUG -- : Read 1087 bytes
+D, [2012-01-23T11:19:26.246646 #22754] DEBUG -- : Read 2447 bytes
+D, [2012-01-23T11:19:26.246978 #22754] DEBUG -- : Read 3807 bytes
+D, [2012-01-23T11:19:26.267110 #22754] DEBUG -- : Read 4071 bytes
+D, [2012-01-23T11:19:26.268498 #22754] DEBUG -- : Read 5431 bytes
+D, [2012-01-23T11:19:26.268851 #22754] DEBUG -- : Read 6791 bytes
+D, [2012-01-23T11:19:26.289959 #22754] DEBUG -- : Read 8132 bytes
+D, [2012-01-23T11:19:26.290113 #22754] DEBUG -- : Read 8192 bytes
+D, [2012-01-23T11:19:26.290218 #22754] DEBUG -- : Read 10857 bytes
+D, [2012-01-23T11:19:26.290569 #22754] DEBUG -- : Read 11297 bytes
+D, [2012-01-23T11:19:26.291035 #22754] DEBUG -- : Read 12657 bytes
+D, [2012-01-23T11:19:26.314056 #22754] DEBUG -- : Read 16384 bytes
+D, [2012-01-23T11:19:26.314178 #22754] DEBUG -- : Read 24575 bytes
+D, [2012-01-23T11:19:26.314279 #22754] DEBUG -- : Read 24619 bytes
+D, [2012-01-23T11:19:26.314643 #22754] DEBUG -- : Read 25979 bytes
+D, [2012-01-23T11:19:26.335056 #22754] DEBUG -- : Read 27375 bytes
+D, [2012-01-23T11:19:26.335199 #22754] DEBUG -- : response-header: connection => close
+D, [2012-01-23T11:19:26.335264 #22754] DEBUG -- : response-header: content-type => text/html;charset=UTF-8
+D, [2012-01-23T11:19:26.335325 #22754] DEBUG -- : response-header: date => Mon, 23 Jan 2012 02:19:26 GMT
+D, [2012-01-23T11:19:26.335386 #22754] DEBUG -- : response-header: set-cookie => JSESSIONID=70QM6DB668O32PB36GRJ2P1L6CRM6P9PCGSJACPO71IJ48AVBG43A08003E00000.OCP_APPLICATION_005; Path=/servicef
+D, [2012-01-23T11:19:26.335447 #22754] DEBUG -- : response-header: transfer-encoding => chunked
+D, [2012-01-23T11:19:26.335966 #22754] DEBUG -- : saved cookie: JSESSIONID=70QM6DB668O32PB36GRJ2P1L6CRM6P9PCGSJACPO71IJ48AVBG43A08003E00000.OCP_APPLICATION_005
+I, [2012-01-23T11:19:26.336078 #22754]  INFO -- : status: 200
