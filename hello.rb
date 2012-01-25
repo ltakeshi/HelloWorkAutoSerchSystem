@@ -58,8 +58,8 @@ agent.page.form_with(:name => 'mainForm'){|form|
   }
 
 #検索ボタン
-  agent.page.forms[0].click_button # 詳細条件入力
-#  agent.page.forms[1].click_button # 検索
+#  agent.page.forms[0].click_button # 詳細条件入力
+  agent.page.forms[1].click_button # 検索
 
   puts agent.page.body
 }
