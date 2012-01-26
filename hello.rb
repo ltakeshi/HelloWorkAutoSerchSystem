@@ -10,6 +10,9 @@ require 'mechanize'
 require 'logger'
 require 'net/https'
 
+FILENAME1 = "test1.html"
+FILENAME2 = "test2.html"
+
 agent = Mechanize.new
 #agent.log = Logger.new('hello.log')
 
@@ -63,14 +66,35 @@ agent.page.form_with(:name => 'mainForm'){|form|
 
 # 詳細条件入力のページ
 agent.page.form_with(:name => 'mainForm'){|form|
-
+# 希望する職種
+  form.field_with(:name => 'kiboShokushuDetail'){|list|
+    list.value = "06" # 情報処理技術者
+  }
 # 検索ボタン
 #  form.click_button(form.button_with(:name => 'commonNextScreen')) # 基本条件の変更
   form.click_button(form.button_with(:name => 'commonSearch')) # 検索
 }
 
-#puts agent.page.body
-html_doc = Nokogiri::HTML(agent.page.body)
-puts html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+10.times{ # 検索結果を10ページ分取得
+  html_doc = Nokogiri::HTML(agent.page.body)
+#  puts html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+  open(FILENAME1,"a"){|f|
+   f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+  }
+  agent.page.form_with(:name => 'multiForm2'){|form|
+    form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
+  }
+}
 
+# 生成したHTMLの相対URLを置換
+open(FILENAME1){|f|
+  open(FILENAME2,"w"){|o|
+    while line = f.gets
+      line.gsub!("./130050.do","https://www.hellowork.go.jp/servicef/130050.do")
+      o.puts line
+    end
+  }
+}
+
+#puts agent.page.body
 #puts html_doc
