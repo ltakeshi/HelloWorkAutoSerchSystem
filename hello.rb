@@ -9,7 +9,6 @@
 require 'mechanize'
 require 'logger'
 require 'net/https'
-require 'hpricot'
 
 agent = Mechanize.new
 #agent.log = Logger.new('hello.log')
