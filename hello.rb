@@ -28,12 +28,24 @@ agent.user_agent_alias = 'Linux Firefox'
 agent.page.form_with(:name => 'mainForm'){|form|
 
 # 求職登録有無
-  form.radiobuttons_with(:name => 'kyushokuUmu')[0].check
-#  form['kyushokuNumber1'] = 34050
-  form['kyushokuNumber1'] = $config["base"]["kyushokuNumber1"]
-  form['kyushokuNumber2'] = $config["base"]["kyushokuNumber2"]
+  if $config["base"]["kyushokuUmu"] == 1
+    form.radiobuttons_with(:name => 'kyushokuUmu')[0].check
+    form['kyushokuNumber1'] = $config["base"]["kyushokuNumber1"]
+    form['kyushokuNumber2'] = $config["base"]["kyushokuNumber2"]
+  else
+    form.radiobuttons_with(:name => 'kyushokuUmu')[1].check
+  end
+
 # 求人情報の種類
-  form.radiobuttons_with(:name => 'kyujinShurui')[0].check
+#  if $config["base"]["kyujinShurui"] == 1
+#    form.radiobuttons_with(:name => 'kyujinShurui')[0].check
+#  elsif $config["base"]["kyujinShurui"] == 2
+#    form.radiobuttons_with(:name => 'kyujinShurui')[1].check
+#  elsif $config["base"]["kyujinShurui"] == 3
+#    form.radiobuttons_with(:name => 'kyujinShurui')[2].check
+#  else
+#  end
+
 # 賃金
   form['gekkyuKagen'] = '180000'
   form.checkbox_with(:text => /手当等を含む/).check

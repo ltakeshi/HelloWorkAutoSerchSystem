@@ -3,12 +3,13 @@ base:
 # 求職登録している場合はkyushokuUmuの値は1。登録していなければ0。
 # 求職登録をしている場合、kyushokuNumber1とkyushokuNumber2にそれぞれ入力。
 # kyushokuNumber1は半角数字5桁、kyushokuNumber2は半角数字8桁で入力。
-  kyushokuUmu: 
+  kyushokuUmu: 0
   kyushokuNumber1: 
   kyushokuNumber2: 
 # 求人情報の種類欄
 # 一般(フルタイム)の場合は1、一般(パート)の場合は2、学生の場合は3を入力
-  kyujinShurui: 
+  kyujinShurui: 1
+
 # 派遣・請負欄
 # 派遣・請負を除くのであれば1。除かないのであれば0。
   hakenOrUkeoi: 
