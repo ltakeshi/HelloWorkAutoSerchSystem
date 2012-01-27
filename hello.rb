@@ -10,9 +10,12 @@ require 'mechanize'
 require 'logger'
 require 'net/https'
 require 'fileutils'
+require 'yaml'
 
 FILENAME1 = "out.html"
 FILENAME2 = "result.html"
+
+$config = YAML.load_file "config.yaml"
 
 agent = Mechanize.new
 #agent.log = Logger.new('hello.log')
@@ -23,10 +26,12 @@ agent.user_agent_alias = 'Linux Firefox'
 
 # 検索ページ
 agent.page.form_with(:name => 'mainForm'){|form|
+
 # 求職登録有無
   form.radiobuttons_with(:name => 'kyushokuUmu')[0].check
-  form['kyushokuNumber1'] = '34050'
-  form['kyushokuNumber2'] = '1437913'
+#  form['kyushokuNumber1'] = 34050
+  form['kyushokuNumber1'] = $config["base"]["kyushokuNumber1"]
+  form['kyushokuNumber2'] = $config["base"]["kyushokuNumber2"]
 # 求人情報の種類
   form.radiobuttons_with(:name => 'kyujinShurui')[0].check
 # 賃金
@@ -99,6 +104,8 @@ open(FILENAME1){|f|
 }
 
 FileUtils.rm(FILENAME1)
+
+
 
 #puts agent.page.body
 #puts html_doc
