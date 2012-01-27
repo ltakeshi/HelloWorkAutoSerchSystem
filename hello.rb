@@ -9,9 +9,10 @@
 require 'mechanize'
 require 'logger'
 require 'net/https'
+require 'fileutils'
 
-FILENAME1 = "test1.html"
-FILENAME2 = "test2.html"
+FILENAME1 = "out.html"
+FILENAME2 = "result.html"
 
 agent = Mechanize.new
 #agent.log = Logger.new('hello.log')
@@ -76,6 +77,7 @@ agent.page.form_with(:name => 'mainForm'){|form|
 }
 
 10.times{ # 検索結果を10ページ分取得
+  puts "get pages"
   html_doc = Nokogiri::HTML(agent.page.body)
 #  puts html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
   open(FILENAME1,"a"){|f|
@@ -95,6 +97,8 @@ open(FILENAME1){|f|
     end
   }
 }
+
+FileUtils.rm(FILENAME1)
 
 #puts agent.page.body
 #puts html_doc
