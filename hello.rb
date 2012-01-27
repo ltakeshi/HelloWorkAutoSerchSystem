@@ -37,85 +37,110 @@ agent.page.form_with(:name => 'mainForm'){|form|
   end
 
 # 求人情報の種類
-#  if $config["base"]["kyujinShurui"] == 1
-#    form.radiobuttons_with(:name => 'kyujinShurui')[0].check
-#  elsif $config["base"]["kyujinShurui"] == 2
-#    form.radiobuttons_with(:name => 'kyujinShurui')[1].check
-#  elsif $config["base"]["kyujinShurui"] == 3
-#    form.radiobuttons_with(:name => 'kyujinShurui')[2].check
-#  else
-#  end
+  if $config["base"]["kyujinShurui"] == 1
+    form.radiobutton_with(:value => '1').check
+  elsif $config["base"]["kyujinShurui"] == 2
+    form.radiobutton_with(:value => '2').check
+  else
+    form.radiobutton_with(:value => '3').check
+  end
+
+# 派遣・請負
+# 未実装
 
 # 賃金
-  form['gekkyuKagen'] = '180000'
-  form.checkbox_with(:text => /手当等を含む/).check
+##  form['gekkyuKagen'] = $config["base"]["gekkyuKagen"]
+#  form['gekkyuKagen'] = '18'
+#  if $config["base"]["teate"] == 1
+#    form.checkbox_with(:text => /手当等を含む/).check
+#  end
+
 # 希望する職種
-  form.field_with(:name => 'kiboShokushu'){|list|
-    list.value = "A"
-  }
+#  form.field_with(:name => 'kiboShokushu'){|list|
+#    list.value = $config["base"]["kiboShokushu"]
+#  }
+
+
 # 都道府県／市区町村名
-  form.field_with(:name => 'todofuken1'){|list|
-    list.value = "26" # 京都
-  }
-  form.field_with(:name => 'todofuken2'){|list|
-    list.value = "27" # 大阪
-  }
-  form.field_with(:name => 'todofuken3'){|list|
-    list.value = "28" # 兵庫
-  }
-  form.field_with(:name => 'todofuken4'){|list|
-    list.value = "33" # 岡山
-  }
-  form.field_with(:name => 'todofuken5'){|list|
-    list.value = "34" # 広島
-  }
+#  form.field_with(:name => 'todofuken1'){|list|
+#    list.value = $config["base"]["todofuken1"]
+#  }
+#  form['chiku1'] = $config["base"]["todofuken1_chiku"]
+#
+#  form.field_with(:name => 'todofuken2'){|list|
+#    list.value = $config["base"]["todofuken2"]
+#  }
+#  form['chiku2'] = $config["base"]["todofuken2_chiku"]
+#  form.field_with(:name => 'todofuken3'){|list|
+#    list.value = $config["base"]["todofuken3"]
+#  }
+#  form['chiku3'] = $config["base"]["todofuken3_chiku"]
+#  form.field_with(:name => 'todofuken4'){|list|
+#    list.value = $config["base"]["todofuken4"]
+#  }
+#  form['chiku4'] = $config["base"]["todofuken4_chiku"]
+#  form.field_with(:name => 'todofuken5'){|list|
+#    list.value = $config["base"]["todofuken5"]
+#  }
+#  form['chiku5'] = $config["base"]["todofuken5_chiku"]
+#
 # 年齢
-  form['nenrei'] = '26'
+#  form['nenrei'] = form['chiku2'] = $config["base"]["nenrei"]
+
+# 新着求人
+# 未実装  
+
 # 希望する産業
-  form.field_with(:name => 'kiboSangyo'){|list|
-    list.value = "G"
-  }
+#  form.field_with(:name => 'kiboSangyo'){|list|
+#    list.value = form['chiku2'] = $config["base"]["kiboSangyo"]
+#  }
 
 # 検索ボタン
-  form.click_button(form.button_with(:name => 'commonNextScreen')) # 詳細条件入力
-#  form.click_button(form.button_with(:name => 'commonSearch')) # 検索
-
+  if $config["base"]["syousai"] == 0
+    form.click_button(form.button_with(:name => 'commonSearch')) # 検索
+  else
+    form.click_button(form.button_with(:name => 'commonNextScreen')) # 詳細条件入力
+  end
+  puts agent.page.body
 }
 
+if $config["base"]["syousai"] == 1
 # 詳細条件入力のページ
-agent.page.form_with(:name => 'mainForm'){|form|
+  agent.page.form_with(:name => 'mainForm'){|form|
 # 希望する職種
-  form.field_with(:name => 'kiboShokushuDetail'){|list|
-    list.value = "06" # 情報処理技術者
-  }
+    form.field_with(:name => 'kiboShokushuDetail'){|list|
+      list.value = "06" # 情報処理技術者
+    }
 # 検索ボタン
 #  form.click_button(form.button_with(:name => 'commonNextScreen')) # 基本条件の変更
-  form.click_button(form.button_with(:name => 'commonSearch')) # 検索
-}
+    form.click_button(form.button_with(:name => 'commonSearch')) # 検索
 
-10.times{ # 検索結果を10ページ分取得
-  puts "get pages"
-  html_doc = Nokogiri::HTML(agent.page.body)
-#  puts html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
-  open(FILENAME1,"a"){|f|
-   f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
   }
-  agent.page.form_with(:name => 'multiForm2'){|form|
-    form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
-  }
-}
+end
+
+#10.times{ # 検索結果を10ページ分取得
+#  puts "get pages"
+#  html_doc = Nokogiri::HTML(agent.page.body)
+##  puts html_doc
+#  open(FILENAME1,"a"){|f|
+#   f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+#  }
+#  agent.page.form_with(:name => 'multiForm2'){|form|
+#    form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
+#  }
+#}
 
 # 生成したHTMLの相対URLを置換
-open(FILENAME1){|f|
-  open(FILENAME2,"w"){|o|
-    while line = f.gets
-      line.gsub!("./130050.do","https://www.hellowork.go.jp/servicef/130050.do")
-      o.puts line
-    end
-  }
-}
+#open(FILENAME1){|f|
+#  open(FILENAME2,"w"){|o|
+#    while line = f.gets
+#      line.gsub!("./130050.do","https://www.hellowork.go.jp/servicef/130050.do")
+#      o.puts line
+#    end
+#  }
+#}
 
-FileUtils.rm(FILENAME1)
+#FileUtils.rm(FILENAME1)
 
 
 
