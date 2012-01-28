@@ -38,68 +38,75 @@ agent.page.form_with(:name => 'mainForm'){|form|
 
 # 求人情報の種類
   if $config["base"]["kyujinShurui"] == 1
-    form.radiobutton_with(:value => '1').check
+    form.radiobutton_with(:value => '1',:name => 'kyujinShurui').check
   elsif $config["base"]["kyujinShurui"] == 2
-    form.radiobutton_with(:value => '2').check
+    form.radiobutton_with(:value => '2',:name => 'kyujinShurui').check
   else
-    form.radiobutton_with(:value => '3').check
+    form.radiobutton_with(:value => '3',:name => 'kyujinShurui').check
   end
 
 # 派遣・請負
-# 未実装
+  if $config["base"]["hakenOrUkeoi"] == 1
+    form.checkbox_with(:text => /派遣・請負を除く/).check
+  end
 
 # 賃金
-##  form['gekkyuKagen'] = $config["base"]["gekkyuKagen"]
-#  form['gekkyuKagen'] = '18'
-#  if $config["base"]["teate"] == 1
-#    form.checkbox_with(:text => /手当等を含む/).check
-#  end
+  form['gekkyuKagen'] = $config["base"]["gekkyuKagen"]
+  if $config["base"]["kyujinShurui"] == 2
+    form.checkbox_with(:text => /手当等を含む/).uncheck
+  elsif $config["base"]["teate"] == 1
+    form.checkbox_with(:text => /手当等を含む/).check
+  end
 
 # 希望する職種
-#  form.field_with(:name => 'kiboShokushu'){|list|
-#    list.value = $config["base"]["kiboShokushu"]
-#  }
-
+  form.field_with(:name => 'kiboShokushu'){|list|
+    list.value = $config["base"]["kiboShokushu"]
+  }
 
 # 都道府県／市区町村名
-#  form.field_with(:name => 'todofuken1'){|list|
-#    list.value = $config["base"]["todofuken1"]
-#  }
-#  form['chiku1'] = $config["base"]["todofuken1_chiku"]
-#
-#  form.field_with(:name => 'todofuken2'){|list|
-#    list.value = $config["base"]["todofuken2"]
-#  }
-#  form['chiku2'] = $config["base"]["todofuken2_chiku"]
-#  form.field_with(:name => 'todofuken3'){|list|
-#    list.value = $config["base"]["todofuken3"]
-#  }
-#  form['chiku3'] = $config["base"]["todofuken3_chiku"]
-#  form.field_with(:name => 'todofuken4'){|list|
-#    list.value = $config["base"]["todofuken4"]
-#  }
-#  form['chiku4'] = $config["base"]["todofuken4_chiku"]
-#  form.field_with(:name => 'todofuken5'){|list|
-#    list.value = $config["base"]["todofuken5"]
-#  }
-#  form['chiku5'] = $config["base"]["todofuken5_chiku"]
-#
+  form.field_with(:name => 'todofuken1'){|list|
+    list.value = $config["base"]["todofuken1"]
+  }
+  form['chiku1'] = $config["base"]["todofuken1_chiku"]
+
+  form.field_with(:name => 'todofuken2'){|list|
+    list.value = $config["base"]["todofuken2"]
+  }
+  form['chiku2'] = $config["base"]["todofuken2_chiku"]
+
+  form.field_with(:name => 'todofuken3'){|list|
+    list.value = $config["base"]["todofuken3"]
+  }
+  form['chiku3'] = $config["base"]["todofuken3_chiku"]
+
+  form.field_with(:name => 'todofuken4'){|list|
+    list.value = $config["base"]["todofuken4"]
+  }
+  form['chiku4'] = $config["base"]["todofuken4_chiku"]
+
+  form.field_with(:name => 'todofuken5'){|list|
+    list.value = $config["base"]["todofuken5"]
+  }
+  form['chiku5'] = $config["base"]["todofuken5_chiku"]
+
 # 年齢
-#  form['nenrei'] = form['chiku2'] = $config["base"]["nenrei"]
+  form['nenrei'] =  $config["base"]["nenrei"]
 
 # 新着求人
-# 未実装  
+  if $config["base"]["shinchakuKyujin"] == 1
+    form.checkbox_with(:text => /最新の求人情報から検索する/).check
+  end
 
 # 希望する産業
-#  form.field_with(:name => 'kiboSangyo'){|list|
-#    list.value = form['chiku2'] = $config["base"]["kiboSangyo"]
-#  }
+  form.field_with(:name => 'kiboSangyo'){|list|
+    list.value = $config["base"]["kiboSangyo"]
+  }
 
 # 検索ボタン
-  if $config["base"]["syousai"] == 0
-    form.click_button(form.button_with(:name => 'commonSearch')) # 検索
-  else
+  if $config["base"]["syousai"] == 1
     form.click_button(form.button_with(:name => 'commonNextScreen')) # 詳細条件入力
+  else
+    form.click_button(form.button_with(:name => 'commonSearch')) # 検索
   end
   puts agent.page.body
 }
@@ -108,13 +115,18 @@ if $config["base"]["syousai"] == 1
 # 詳細条件入力のページ
   agent.page.form_with(:name => 'mainForm'){|form|
 # 希望する職種
-    form.field_with(:name => 'kiboShokushuDetail'){|list|
-      list.value = "06" # 情報処理技術者
-    }
+#    form.field_with(:name => 'kiboShokushuDetail'){|list|
+#      list.value = "06" # 情報処理技術者
+#    }
 # 検索ボタン
 #  form.click_button(form.button_with(:name => 'commonNextScreen')) # 基本条件の変更
-    form.click_button(form.button_with(:name => 'commonSearch')) # 検索
 
+# 希望する休日
+#    $config["detail"]["kyujitsu"].each {|i|
+#      form.checkbox_with(:name => 'kyujitsu', :value => '1').check
+#    }
+
+    form.click_button(form.button_with(:name => 'commonSearch')) # 検索
   }
 end
 
@@ -141,8 +153,3 @@ end
 #}
 
 #FileUtils.rm(FILENAME1)
-
-
-
-#puts agent.page.body
-#puts html_doc
