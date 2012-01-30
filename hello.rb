@@ -115,8 +115,7 @@ if $config["base"]["syousai"] == 1
   agent.page.form_with(:name => 'mainForm'){|form|
 
 # 雇用形態欄
-    if $config["detail"]["koyoKeitai"].nil?
-    else
+    if !$config["detail"]["koyoKeitai"].nil?
       $config["detail"]["koyoKeitai"].each {|i|
         form.checkbox_with(:name => 'koyoKeitai', :value => "#{i}").check
       }
@@ -133,8 +132,7 @@ if $config["base"]["syousai"] == 1
     end
 
 # 希望する職種(詳細)欄
-    if $config["detail"]["kiboShokushuDetail"].nil?
-    else
+    if !$config["detail"]["kiboShokushuDetail"].nil?
       form.field_with(:name => 'kiboShokushuDetail'){|list|
         list.value = $config["detail"]["kiboShokushuDetail"]
       }
@@ -164,8 +162,7 @@ if $config["base"]["syousai"] == 1
     end
 
 # 入居可能住宅欄
-    if $config["detail"]["nyukyoKanou"].nil?
-    else
+    if !$config["detail"]["nyukyoKanou"].nil?
     $config["detail"]["nyukyoKanou"].each {|i|
         form.checkbox_with(:name => 'nyukyoKanou', :value => "#{i}").check
       }
@@ -182,8 +179,7 @@ if $config["base"]["syousai"] == 1
     end
 
 # 希望する休日
-    if $config["detail"]["kyujitsu"].nil?
-    else
+    if !$config["detail"]["kyujitsu"].nil?
     $config["detail"]["kyujitsu"].each {|i|
         form.checkbox_with(:name => 'kyujitsu', :value => "#{i}").check
       }
@@ -213,10 +209,22 @@ if $config["base"]["syousai"] == 1
     end
 
 # 時間外欄
-
+    if $config["detail"]["rdoJkgi"] == 1
+      form["jikangaiHeikin"] = $config["detail"]["jikangaiHeikin"]
+      if $config["detail"]["rdojikangaiHeikin"] == 0
+        form.radiobutton_with(:value => '0',:name => 'rdojikangaiHeikin').check
+      else $config["detail"]["rdojikangaiHeikin"] == 1
+        form.radiobutton_with(:value => '1',:name => 'rdojikangaiHeikin').check
+      end
+    end
 
 # 希望する就業時間欄
-
+    if !($config["detail"]["fulltimeKaishiHH"].nil? or $config["detail"]["fulltimeKaishiMM"].nil? or $config["detail"]["fulltimeShuryoHH"].nil? or $config["detail"]["fulltimeShuryoMM"].nil?)
+      form['fulltimeKaishiHH'] = $config["detail"]["fulltimeKaishiHH"]
+      form['fulltimeKaishiMM'] = $config["detail"]["fulltimeKaishiMM"]
+      form['fulltimeShuryoHH'] = $config["detail"]["fulltimeShuryoHH"]
+      form['fulltimeShuryoMM'] = $config["detail"]["fulltimeShuryoMM"]
+    end
 
 # 転勤欄
 
@@ -245,10 +253,9 @@ if $config["base"]["syousai"] == 1
   }
 end
 
-#10.times{ # 検索結果を10ページ分取得
-#  puts "get pages"
+#10.times{|i| # 検索結果を10ページ分取得
+#  puts i.to_s + "get pages"
 #  html_doc = Nokogiri::HTML(agent.page.body)
-##  puts html_doc
 #  open(FILENAME1,"a"){|f|
 #   f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
 #  }
