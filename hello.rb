@@ -17,6 +17,11 @@ FILENAME2 = "result.html"
 
 $config = YAML.load_file "config.yaml"
 
+getPageNum = $config["base"]["getPageNum"].to_i
+
+
+
+
 agent = Mechanize.new
 #agent.log = Logger.new('hello.log')
 
@@ -227,51 +232,80 @@ if $config["base"]["syousai"] == 1
     end
 
 # 転勤欄
-
+    if $config["detail"]["tenkin"] == 0
+      form.radiobutton_with(:value => '0',:name => 'tenkin').check
+    end
 
 # 免許・資格欄
-
+    if $config["detail"]["licenseCheck"] == 1
+      form.radiobutton_with(:value => '1',:name => 'licenseCheck').check
+    elsif !$config["detail"]["license1"].nil?
+      form["license1"] = $config["detail"]["license1"]
+    elsif !$config["detail"]["license2"].nil?
+      form["license2"] = $config["detail"]["license2"]
+    else !$config["detail"]["license3"].nil?
+      form["license3"] = $config["detail"]["license3"]
+    end
 
 # 学歴欄
-
+    if $config["detail"]["gakurekiFumon"] == 1
+      form.checkbox_with(:value => '1',:name => 'gakurekiFumon').check
+    end
 
 # 経験欄
-
+    if $config["detail"]["keikenFumon"] == 1
+      form.checkbox_with(:value => '1',:name => 'keikenFumon').check
+    end
 
 # 事業所名欄
-
+    form['jigyoshomei'] = $config["detail"]["jigyoshomei"]
 
 # 検索ボタン
-#  form.click_button(form.button_with(:name => 'commonNextScreen')) # 基本条件の変更
-
-
-
-#    form.checkbox_with(:name => 'keiyakuKoshin').check
 
     form.click_button(form.button_with(:name => 'commonSearch')) # 検索
-    puts agent.page.body
+#    puts agent.page.body
   }
 end
 
-#10.times{|i| # 検索結果を10ページ分取得
-#  puts i.to_s + "get pages"
-#  html_doc = Nokogiri::HTML(agent.page.body)
-#  open(FILENAME1,"a"){|f|
-#   f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
-#  }
-#  agent.page.form_with(:name => 'multiForm2'){|form|
-#    form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
-#  }
-#}
+html_doc = Nokogiri::HTML(agent.page.body)
+pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
+
+if  pageNum >= getPageNum
+#  getPageNum ページ取得
+  getPageNum.times{|i| # 検索結果を10ページ分取得
+    puts i.to_s + " page get"
+    html_doc = Nokogiri::HTML(agent.page.body)
+    open(FILENAME1,"a"){|f|
+      f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+    }
+    agent.page.form_with(:name => 'multiForm2'){|form|
+      form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
+    }
+  }
+else
+#  pageNum ページ取得
+  pageNum.times{|i| # 検索結果を10ページ分取得
+    puts i.to_s + " page get"
+    html_doc = Nokogiri::HTML(agent.page.body)
+    open(FILENAME1,"a"){|f|
+      f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+    }
+    agent.page.form_with(:name => 'multiForm2'){|form|
+      form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
+    }
+  }
+end
+
+
 
 # 生成したHTMLの相対URLを置換
-#open(FILENAME1){|f|
-#  open(FILENAME2,"w"){|o|
-#    while line = f.gets
-#      line.gsub!("./130050.do","https://www.hellowork.go.jp/servicef/130050.do")
-#      o.puts line
-#    end
-#  }
-#}
+open(FILENAME1){|f|
+  open(FILENAME2,"w"){|o|
+    while line = f.gets
+      line.gsub!("./130050.do","https://www.hellowork.go.jp/servicef/130050.do")
+      o.puts line
+    end
+  }
+}
 
-#FileUtils.rm(FILENAME1)
+FileUtils.rm(FILENAME1)
