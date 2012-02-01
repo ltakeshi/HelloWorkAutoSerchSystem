@@ -23,7 +23,7 @@ getPageNum = $config["base"]["getPageNum"].to_i
 
 
 agent = Mechanize.new
-#agent.log = Logger.new('hello.log')
+agent.log = Logger.new('hello.log')
 
 # 検索トップページ
 page = agent.get("https://www.hellowork.go.jp/servicef/130020.do?action=initDisp&screenId=130020")
@@ -268,34 +268,18 @@ if $config["base"]["syousai"] == 1
 end
 
 html_doc = Nokogiri::HTML(agent.page.body)
-pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
+#pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
-if  pageNum >= getPageNum
-#  getPageNum ページ取得
-  getPageNum.times{|i| # 検索結果を10ページ分取得
-    puts i.to_s + " page get"
-    html_doc = Nokogiri::HTML(agent.page.body)
-    open(FILENAME1,"a"){|f|
-      f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
-    }
-    agent.page.form_with(:name => 'multiForm2'){|form|
-      form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
-    }
+10.times{|i| # 検索結果を10ページ分取得
+ puts i.to_s + "get pages"
+  html_doc = Nokogiri::HTML(agent.page.body)
+  open(FILENAME1,"a"){|f|
+    f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
   }
-else
-#  pageNum ページ取得
-  pageNum.times{|i| # 検索結果を10ページ分取得
-    puts i.to_s + " page get"
-    html_doc = Nokogiri::HTML(agent.page.body)
-    open(FILENAME1,"a"){|f|
-      f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
-    }
-    agent.page.form_with(:name => 'multiForm2'){|form|
-      form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
-    }
+  agent.page.form_with(:name => 'multiForm2'){|form|
+    form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
   }
-end
-
+}
 
 
 # 生成したHTMLの相対URLを置換
