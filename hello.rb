@@ -12,18 +12,25 @@ require 'net/https'
 require 'fileutils'
 require 'yaml'
 
-FILENAME1 = "out.html"
-FILENAME2 = "result.html"
+$config = YAML.load_file ARGV[0]
 
-$config = YAML.load_file "config.yaml"
+FILENAME1 = "tmp.html"
 
-getPageNum = $config["base"]["getPageNum"].to_i
+if $config["base"]["name"].nil?
+  FILENAME2 = "result.html"
+else
+  FILENAME2 = $config["base"]["name"] + ".html"
+end
 
-
-
+if $config["base"]["getPageNum"].nil?
+  getPageNum = 10
+else
+  getPageNum = $config["base"]["getPageNum"].to_i
+end
 
 agent = Mechanize.new
-agent.log = Logger.new('hello.log')
+
+#agent.log = Logger.new('hello.log')
 
 # 検索トップページ
 page = agent.get("https://www.hellowork.go.jp/servicef/130020.do?action=initDisp&screenId=130020")
@@ -120,7 +127,7 @@ if $config["base"]["syousai"] == 1
   agent.page.form_with(:name => 'mainForm'){|form|
 
 # 雇用形態欄
-    if !$config["detail"]["koyoKeitai"].nil?
+    unless $config["detail"]["koyoKeitai"].nil?
       $config["detail"]["koyoKeitai"].each {|i|
         form.checkbox_with(:name => 'koyoKeitai', :value => "#{i}").check
       }
@@ -137,9 +144,9 @@ if $config["base"]["syousai"] == 1
     end
 
 # 希望する職種(詳細)欄
-    if !$config["detail"]["kiboShokushuDetail"].nil?
+    unless $config["detail"]["kiboShokushuDetail"].nil?
       form.field_with(:name => 'kiboShokushuDetail'){|list|
-        list.value = $config["detail"]["kiboShokushuDetail"]
+        list.value = $config["detail"]["kiboShokushuDetail"].to_s
       }
     end
 
@@ -167,7 +174,7 @@ if $config["base"]["syousai"] == 1
     end
 
 # 入居可能住宅欄
-    if !$config["detail"]["nyukyoKanou"].nil?
+    unless $config["detail"]["nyukyoKanou"].nil?
     $config["detail"]["nyukyoKanou"].each {|i|
         form.checkbox_with(:name => 'nyukyoKanou', :value => "#{i}").check
       }
@@ -183,9 +190,16 @@ if $config["base"]["syousai"] == 1
       form.checkbox_with(:name => 'shoyo').check
     end
 
+# 希望する産業(詳細)欄
+    unless $config["detail"]["kiboSangyoDetail"].nil?
+      form.field_with(:name => 'kiboSangyoDetail'){|list|
+        list.value = $config["detail"]["kiboSangyoDetail"].to_s
+      }
+    end
+
 # 希望する休日
-    if !$config["detail"]["kyujitsu"].nil?
-    $config["detail"]["kyujitsu"].each {|i|
+    unless $config["detail"]["kyujitsu"].nil?
+      $config["detail"]["kyujitsu"].each {|i|
         form.checkbox_with(:name => 'kyujitsu', :value => "#{i}").check
       }
     end
@@ -224,7 +238,7 @@ if $config["base"]["syousai"] == 1
     end
 
 # 希望する就業時間欄
-    if !($config["detail"]["fulltimeKaishiHH"].nil? or $config["detail"]["fulltimeKaishiMM"].nil? or $config["detail"]["fulltimeShuryoHH"].nil? or $config["detail"]["fulltimeShuryoMM"].nil?)
+    unless ($config["detail"]["fulltimeKaishiHH"].nil? or $config["detail"]["fulltimeKaishiMM"].nil? or $config["detail"]["fulltimeShuryoHH"].nil? or $config["detail"]["fulltimeShuryoMM"].nil?)
       form['fulltimeKaishiHH'] = $config["detail"]["fulltimeKaishiHH"]
       form['fulltimeKaishiMM'] = $config["detail"]["fulltimeKaishiMM"]
       form['fulltimeShuryoHH'] = $config["detail"]["fulltimeShuryoHH"]
@@ -268,9 +282,11 @@ if $config["base"]["syousai"] == 1
 end
 
 html_doc = Nokogiri::HTML(agent.page.body)
-#pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
+pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
-10.times{|i| # 検索結果を10ページ分取得
+
+# 検索結果を取得
+(getPageNum >= pageNum ? pageNum : getPageNum).times{|i|
  puts i.to_s + "get pages"
   html_doc = Nokogiri::HTML(agent.page.body)
   open(FILENAME1,"a"){|f|
@@ -280,7 +296,6 @@ html_doc = Nokogiri::HTML(agent.page.body)
     form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
   }
 }
-
 
 # 生成したHTMLの相対URLを置換
 open(FILENAME1){|f|
