@@ -275,7 +275,6 @@ if $config["base"]["syousai"] == 1
     form['jigyoshomei'] = $config["detail"]["jigyoshomei"]
 
 # 検索ボタン
-
     form.click_button(form.button_with(:name => 'commonSearch')) # 検索
 #    puts agent.page.body
   }
