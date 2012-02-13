@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/ruby1.9.1
 # -*- coding: utf-8 -*-
 #参考
 # http://d.hatena.ne.jp/otn/20090509/p1
@@ -153,10 +153,10 @@ if $config["base"]["syousai"] == 1
 # フリーワード欄
     if $config["detail"]["freeWordType"] == 0
       form.radiobutton_with(:value => '0',:name => 'freeWordType').check
-    else $config["detail"]["freeWordType"] == 1
+    else
       form.radiobutton_with(:value => '1',:name => 'freeWordType').check
     end
-    
+
     form["freeWord"] = $config["detail"]["freeWord"]
 
     if $config["detail"]["freeWordRuigigo"] == 1
@@ -193,7 +193,8 @@ if $config["base"]["syousai"] == 1
 # 希望する産業(詳細)欄
     unless $config["detail"]["kiboSangyoDetail"].nil?
       form.field_with(:name => 'kiboSangyoDetail'){|list|
-        list.value = $config["detail"]["kiboSangyoDetail"].to_s
+#        list.value = $config["detail"]["kiboSangyoDetail"].to_s
+        list.value = $config["detail"]["kiboSangyoDetail"]
       }
     end
 
@@ -284,10 +285,9 @@ end
 html_doc = Nokogiri::HTML(agent.page.body)
 pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
-
 # 検索結果を取得
-(getPageNum >= pageNum ? pageNum : getPageNum).times{|i|
- puts i.to_s + "get pages"
+[getPageNum,pageNum].min.times{|i|
+  puts (i+1).to_s + " page get"
   html_doc = Nokogiri::HTML(agent.page.body)
   open(FILENAME1,"a"){|f|
     f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
