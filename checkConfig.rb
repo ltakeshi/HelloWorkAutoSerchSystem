@@ -1,7 +1,5 @@
 #!/usr/bin/ruby1.9.1
 
-require 'yaml'
-
 class CheckConfig
   def initialize(x,y)
     @x, @y = x, y
@@ -55,10 +53,3 @@ class CheckConfig
   end
 
 end
-
-$config = YAML.load_file ARGV[0]
-
-cShoku = CheckConfig.new($config["base"]["kiboShokushu"], $config["detail"]["kiboShokushuDetail"]).checkShokushu
-cSangyo = CheckConfig.new($config["base"]["kiboSangyo"], $config["detail"]["kiboSangyoDetail"])
-p cSangyo.to_s.class
-puts cSangyo.checkSangyo

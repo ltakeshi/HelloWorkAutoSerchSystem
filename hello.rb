@@ -11,6 +11,7 @@ require 'logger'
 require 'net/https'
 require 'fileutils'
 require 'yaml'
+require './checkConfig'
 
 $config = YAML.load_file ARGV[0]
 
@@ -143,12 +144,21 @@ if $config["base"]["syousai"] == 1
       form.checkbox_with(:name => 'myCarTsukin').check
     end
 
+unless $config["base"]["kiboShokushu"].nil? && $config["detail"]["kiboShokushuDetail"].nil?
+  if CheckConfig.new($config["base"]["kiboShokushu"],$config["detail"]["kiboShokushuDetail"]).checkShokushu == 1
 # 希望する職種(詳細)欄
     unless $config["detail"]["kiboShokushuDetail"].nil?
       form.field_with(:name => 'kiboShokushuDetail'){|list|
         list.value = $config["detail"]["kiboShokushuDetail"].to_s
       }
     end
+  else
+    puts "設定ファイル整合性エラー"
+    puts "希望する職種と希望する職種(詳細)が一致しません。"
+    exit
+  end
+end  
+
 
 # フリーワード欄
     if $config["detail"]["freeWordType"] == 0
@@ -189,14 +199,21 @@ if $config["base"]["syousai"] == 1
     if $config["detail"]["shoyo"] == 1
       form.checkbox_with(:name => 'shoyo').check
     end
-
+unless $config["base"]["kiboSangyo"].nil? && $config["detail"]["kiboSangyoDetail"].nil?
 # 希望する産業(詳細)欄
+  if CheckConfig.new($config["base"]["kiboSangyo"],$config["detail"]["kiboSangyoDetail"]).checkSangyo == 1
     unless $config["detail"]["kiboSangyoDetail"].nil?
       form.field_with(:name => 'kiboSangyoDetail'){|list|
-#        list.value = $config["detail"]["kiboSangyoDetail"].to_s
         list.value = $config["detail"]["kiboSangyoDetail"]
       }
     end
+  else
+    puts "設定ファイル整合性エラー"
+    puts "希望する産業と希望する産業(詳細)が一致しません。"
+    exit
+  end
+end
+
 
 # 希望する休日
     unless $config["detail"]["kyujitsu"].nil?
@@ -282,6 +299,9 @@ if $config["base"]["syousai"] == 1
 end
 
 html_doc = Nokogiri::HTML(agent.page.body)
+#取得したHTMLの検索結果に``ご希望の条件に合致する情報は見つかりませんでした。"と表示された場合の処理
+searchError = (html_doc.xpath("/html/body/div/div/div[4]/div/div/p"))
+puts searchError.to_s
 pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
 # 検索結果を取得
