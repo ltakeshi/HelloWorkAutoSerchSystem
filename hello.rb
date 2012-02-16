@@ -144,7 +144,7 @@ if $config["base"]["syousai"] == 1
       form.checkbox_with(:name => 'myCarTsukin').check
     end
 
-unless $config["base"]["kiboShokushu"].nil? && $config["detail"]["kiboShokushuDetail"].nil?
+unless $config["detail"]["kiboShokushuDetail"].nil?
   if CheckConfig.new($config["base"]["kiboShokushu"],$config["detail"]["kiboShokushuDetail"]).checkShokushu == 1
 # 希望する職種(詳細)欄
     unless $config["detail"]["kiboShokushuDetail"].nil?
@@ -199,8 +199,9 @@ end
     if $config["detail"]["shoyo"] == 1
       form.checkbox_with(:name => 'shoyo').check
     end
-unless $config["base"]["kiboSangyo"].nil? && $config["detail"]["kiboSangyoDetail"].nil?
+
 # 希望する産業(詳細)欄
+unless $config["detail"]["kiboSangyoDetail"].nil?
   if CheckConfig.new($config["base"]["kiboSangyo"],$config["detail"]["kiboSangyoDetail"]).checkSangyo == 1
     unless $config["detail"]["kiboSangyoDetail"].nil?
       form.field_with(:name => 'kiboSangyoDetail'){|list|
@@ -301,7 +302,12 @@ end
 html_doc = Nokogiri::HTML(agent.page.body)
 #取得したHTMLの検索結果に``ご希望の条件に合致する情報は見つかりませんでした。"と表示された場合の処理
 searchError = (html_doc.xpath("/html/body/div/div/div[4]/div/div/p"))
-puts searchError.to_s
+#p searchError
+if searchError.to_s =~ /ご希望の条件に合致する情報は見つかりませんでした。/
+  puts "ご希望の条件に合致する情報は見つかりませんでした。"
+  exit
+end
+
 pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
 # 検索結果を取得
