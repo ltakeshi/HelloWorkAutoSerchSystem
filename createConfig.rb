@@ -7,9 +7,9 @@ require 'yaml'
 opt = OptionParser.new do |o|
   o.on('-o FILENAME','--output=FILENAME','出力ファイル名を指定'){|filename| $name = filename}
   o.on('-p PageNum','--pages=PageNum','取得するページ数を指定'){|pages| $pageNum = pages}
-  o.on('-n Number','--kyusyokuNumber=Number','13桁の求職番号を入力') {|s| $kyusyokuNumber1 = s.slice(0..4),
-    $kyusyokuNumber2 = s.slice(5..12) }
-  o.on('-s''--kyujinShurui=KyujinSyurui','求人種類を指定'){|syurui| $kyujinShurui = syurui}
+  o.on('-n Number','--kyusyokuNumber=Number','13桁の求職番号を入力') {|s| $kyusyokuNumber = s}
+  o.on('-s KyujinSyurui','--kyujinShurui=KyujinSyurui','求人種類を指定'){|syurui| $kyujinShurui = syurui}
+  o.on('-h','--hakenOrUkeoi','派遣・請負を除く'){|h| $hakenOrUkeoi = h}
 
   begin
     o.parse!
@@ -20,15 +20,14 @@ opt = OptionParser.new do |o|
 end
 
 #p :name => $name
-#puts $kyujinShurui
 
 hash = {
   'base' => 
-  { 'name' => 'hoge', # -n
-    'getPageNum' => '10',# -p
-    'kyushokuUmu' => '', 
-    'kyushokuNumber1' => '', # -n
-    'kyushokuNumber2' => '',
+  { 'name' => $name, # -n
+    'getPageNum' => $pageNum,# -p
+    'kyushokuUmu' => '',
+    'kyushokuNumber1' => $kyusyokuNumber.slice(0..4), # -n
+    'kyushokuNumber2' => $kyusyokuNumber.slice(5..12),
     'kyujinShurui' => '', # -s
     'hakenOrUkeoi' => '', # -h
     'gekkyuKagen' => '', # -k
@@ -89,6 +88,8 @@ hash = {
   }
 }
 
-#yaml = YAML.load(hash.to_yaml)
+yaml = YAML.load(hash.to_yaml)
 
-#p yaml["detail"]
+p yaml["base"]["kyushokuNumber1"]
+p yaml["base"]["kyushokuNumber2"]
+#p yaml["base"]
