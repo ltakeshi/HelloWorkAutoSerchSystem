@@ -26,8 +26,8 @@ hash = {
   { 'name' => $name, # -n
     'getPageNum' => $pageNum,# -p
     'kyushokuUmu' => '',
-    'kyushokuNumber1' => $kyusyokuNumber.slice(0..4), # -n
-    'kyushokuNumber2' => $kyusyokuNumber.slice(5..12),
+#    'kyushokuNumber1' => $kyusyokuNumber.slice(0..4), # -n
+#    'kyushokuNumber2' => $kyusyokuNumber.slice(5..12),
     'kyujinShurui' => '', # -s
     'hakenOrUkeoi' => '', # -h
     'gekkyuKagen' => '', # -k
@@ -88,8 +88,13 @@ hash = {
   }
 }
 
-yaml = YAML.load(hash.to_yaml)
+hash["base"]["kyushokuNumber1"] = $kyusyokuNumber.slice(0..4)
+hash["base"]["kyushokuNumber2"] = $kyusyokuNumber.slice(5..12)
+[1,2].each {|i|
+  p hash["base"]["kyushokuNumber#{i}"]
+}
+#yaml = YAML.load(hash.to_yaml)
 
-p yaml["base"]["kyushokuNumber1"]
-p yaml["base"]["kyushokuNumber2"]
+#p yaml["base"]["kyushokuNumber1"]
+#p yaml["base"]["kyushokuNumber2"]
 #p yaml["base"]
