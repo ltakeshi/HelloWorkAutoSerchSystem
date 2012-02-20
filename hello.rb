@@ -145,16 +145,16 @@ if $config["base"]["syousai"] == 1
       form.checkbox_with(:name => 'myCarTsukin').check
     end
 
+# 希望する職種(詳細)欄
     unless $config["detail"]["kiboShokushuDetail"].nil?
       if CheckConfig.new($config["base"]["kiboShokushu"],$config["detail"]["kiboShokushuDetail"]).checkShokushu == 1
-# 希望する職種(詳細)欄
         unless $config["detail"]["kiboShokushuDetail"].nil?
           form.field_with(:name => 'kiboShokushuDetail'){|list|
-            list.value = $config["detail"]["kiboShokushuDetail"].to_s
+            list.value = $config["detail"]["kiboShokushuDetail"]
           }
         end
       else
-        puts "設定ファイル整合性エラー"
+       puts "設定ファイル整合性エラー"
         puts "希望する職種と希望する職種(詳細)が一致しません。"
         exit
       end
