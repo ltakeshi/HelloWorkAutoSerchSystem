@@ -144,21 +144,20 @@ if $config["base"]["syousai"] == 1
       form.checkbox_with(:name => 'myCarTsukin').check
     end
 
-unless $config["detail"]["kiboShokushuDetail"].nil?
-  if CheckConfig.new($config["base"]["kiboShokushu"],$config["detail"]["kiboShokushuDetail"]).checkShokushu == 1
-# 希望する職種(詳細)欄
     unless $config["detail"]["kiboShokushuDetail"].nil?
-      form.field_with(:name => 'kiboShokushuDetail'){|list|
-        list.value = $config["detail"]["kiboShokushuDetail"].to_s
-      }
-    end
-  else
-    puts "設定ファイル整合性エラー"
-    puts "希望する職種と希望する職種(詳細)が一致しません。"
-    exit
-  end
-end  
-
+      if CheckConfig.new($config["base"]["kiboShokushu"],$config["detail"]["kiboShokushuDetail"]).checkShokushu == 1
+# 希望する職種(詳細)欄
+        unless $config["detail"]["kiboShokushuDetail"].nil?
+          form.field_with(:name => 'kiboShokushuDetail'){|list|
+            list.value = $config["detail"]["kiboShokushuDetail"].to_s
+          }
+        end
+      else
+        puts "設定ファイル整合性エラー"
+        puts "希望する職種と希望する職種(詳細)が一致しません。"
+        exit
+      end
+    end  
 
 # フリーワード欄
     if $config["detail"]["freeWordType"] == 0
@@ -166,7 +165,7 @@ end
     else
       form.radiobutton_with(:value => '1',:name => 'freeWordType').check
     end
-
+    
     form["freeWord"] = $config["detail"]["freeWord"]
 
     if $config["detail"]["freeWordRuigigo"] == 1
@@ -185,7 +184,7 @@ end
 
 # 入居可能住宅欄
     unless $config["detail"]["nyukyoKanou"].nil?
-    $config["detail"]["nyukyoKanou"].each {|i|
+      $config["detail"]["nyukyoKanou"].each {|i|
         form.checkbox_with(:name => 'nyukyoKanou', :value => "#{i}").check
       }
     end
@@ -201,20 +200,19 @@ end
     end
 
 # 希望する産業(詳細)欄
-unless $config["detail"]["kiboSangyoDetail"].nil?
-  if CheckConfig.new($config["base"]["kiboSangyo"],$config["detail"]["kiboSangyoDetail"]).checkSangyo == 1
     unless $config["detail"]["kiboSangyoDetail"].nil?
-      form.field_with(:name => 'kiboSangyoDetail'){|list|
-        list.value = $config["detail"]["kiboSangyoDetail"]
-      }
+      if CheckConfig.new($config["base"]["kiboSangyo"],$config["detail"]["kiboSangyoDetail"]).checkSangyo == 1
+        unless $config["detail"]["kiboSangyoDetail"].nil?
+          form.field_with(:name => 'kiboSangyoDetail'){|list|
+            list.value = $config["detail"]["kiboSangyoDetail"]
+          }
+        end
+      else
+        puts "設定ファイル整合性エラー"
+        puts "希望する産業と希望する産業(詳細)が一致しません。"
+        exit
+      end
     end
-  else
-    puts "設定ファイル整合性エラー"
-    puts "希望する産業と希望する産業(詳細)が一致しません。"
-    exit
-  end
-end
-
 
 # 希望する休日
     unless $config["detail"]["kyujitsu"].nil?
