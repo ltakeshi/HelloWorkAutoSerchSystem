@@ -75,6 +75,7 @@ agent.page.form_with(:name => 'mainForm'){|form|
   form.field_with(:name => 'kiboShokushu'){|list|
     list.value = $config["base"]["kiboShokushu"]
   }
+
 # 都道府県／市区町村名
   form.field_with(:name => 'todofuken1'){|list|
     list.value = $config["base"]["todofuken1"]
@@ -222,16 +223,16 @@ if $config["base"]["syousai"] == 1
     end
 
 # 週休二日欄
-    if $config["detail"]["shukyuFutsuka"] == 0
-      form.radiobutton_with(:value => '0',:name => 'shukyuFutsuka').check
-    elsif $config["detail"]["shukyuFutsuka"] == 1
+    if $config["detail"]["shukyuFutsuka"] == 1
       form.radiobutton_with(:value => '1',:name => 'shukyuFutsuka').check
     elsif $config["detail"]["shukyuFutsuka"] == 2
       form.radiobutton_with(:value => '2',:name => 'shukyuFutsuka').check
     elsif $config["detail"]["shukyuFutsuka"] == 3
       form.radiobutton_with(:value => '3',:name => 'shukyuFutsuka').check
-    else $config["detail"]["shukyuFutsuka"] == 4
+    elsif $config["detail"]["shukyuFutsuka"] == 4
       form.radiobutton_with(:value => '4',:name => 'shukyuFutsuka').check
+    else 
+      form.radiobutton_with(:value => '0',:name => 'shukyuFutsuka').check
     end
     
 # 年間休日数欄
@@ -246,16 +247,22 @@ if $config["base"]["syousai"] == 1
 
 # 時間外欄
     if $config["detail"]["rdoJkgi"] == 1
+      form.radiobutton_with(:value => '1',:name => 'rdoJkgi').check
       form["jikangaiHeikin"] = $config["detail"]["jikangaiHeikin"]
-      if $config["detail"]["rdojikangaiHeikin"] == 0
-        form.radiobutton_with(:value => '0',:name => 'rdojikangaiHeikin').check
-      else $config["detail"]["rdojikangaiHeikin"] == 1
+      if $config["detail"]["jikangaiHeikin"] == 1
         form.radiobutton_with(:value => '1',:name => 'rdojikangaiHeikin').check
+      else
+        form.radiobutton_with(:value => '0',:name => 'rdojikangaiHeikin').check
       end
+    elsif $config["detail"]["rdoJkgi"] == 0
+      form.radiobutton_with(:value => '0',:name => 'rdoJkgi').check
+    else
+      form.radiobutton_with(:value => '9',:name => 'rdoJkgi').check
     end
 
 # 希望する就業時間欄
-    unless ($config["detail"]["fulltimeKaishiHH"].nil? or $config["detail"]["fulltimeKaishiMM"].nil? or $config["detail"]["fulltimeShuryoHH"].nil? or $config["detail"]["fulltimeShuryoMM"].nil?)
+    unless ($config["detail"]["fulltimeKaishiHH"].nil? or $config["detail"]["fulltimeKaishiMM"].nil? or
+            $config["detail"]["fulltimeShuryoHH"].nil? or $config["detail"]["fulltimeShuryoMM"].nil?)
       form['fulltimeKaishiHH'] = $config["detail"]["fulltimeKaishiHH"]
       form['fulltimeKaishiMM'] = $config["detail"]["fulltimeKaishiMM"]
       form['fulltimeShuryoHH'] = $config["detail"]["fulltimeShuryoHH"]
@@ -282,7 +289,7 @@ if $config["base"]["syousai"] == 1
     if $config["detail"]["gakurekiFumon"] == 1
       form.checkbox_with(:value => '1',:name => 'gakurekiFumon').check
     end
-
+    
 # 経験欄
     if $config["detail"]["keikenFumon"] == 1
       form.checkbox_with(:value => '1',:name => 'keikenFumon').check
