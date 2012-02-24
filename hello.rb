@@ -13,6 +13,7 @@ require 'fileutils'
 require 'yaml'
 require './checkConfig'
 
+
 $config = YAML.load_file ARGV[0]
 
 FILENAME1 = "tmp.html"
@@ -315,16 +316,25 @@ end
 
 pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
-# 検索結果を取得
+# 検索結果を取得、HTMLを生成
+open(FILENAME1,"a"){|f|
+  f.write "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<title>検索結果</title>\n</head>\n<body>"
+}
+
 [getPageNum,pageNum].min.times{|i|
   puts (i+1).to_s + " page get"
   html_doc = Nokogiri::HTML(agent.page.body)
+  html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table/tr[1]").remove
   open(FILENAME1,"a"){|f|
     f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
   }
   agent.page.form_with(:name => 'multiForm2'){|form|
     form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
   }
+}
+
+open(FILENAME1,"a"){|f|
+  f.write "\n</body>\n</html>"
 }
 
 # 生成したHTMLの相対URLを置換
