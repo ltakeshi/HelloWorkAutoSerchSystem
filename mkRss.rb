@@ -5,11 +5,6 @@ require 'rss'
 require 'nokogiri'
 require 'date'
 
-def return_between(unporsed, start, termi)
-  unporsed =~ /#{start}(.*?)#{termi}/
-  return $1
-end
-
 class String
   def gsubs
     return gsub("\r\n","").gsub("\n","").gsub("\t","").gsub("<br>","")
@@ -35,11 +30,12 @@ doc = Nokogiri::HTML(open("result.html"))
   (0..doc.xpath("//html/body/table[1]/tr/td[4]").length - 1).each{|j|
     id = doc.xpath("//html/body/table[#{i}]/tr/td[3]")[j].text
     name = doc.xpath("//html/body/table[#{i}]/tr/td[4]")[j].text
-    url = doc.xpath("//html/body/table[#{i}]/tr/td[3]")[j].to_html.split("\"")[9]
+    url = doc.xpath("//html/body/table[#{i}]/tr/td[3]")[j].to_html.split("\"").find{|item| item =~ /https/}
     point = doc.xpath("//html/body/table[#{i}]/tr/td[8]")[j].text
     date = doc.xpath("//html/body/table[#{i}]/tr/td[9]")[j].text.dsub
-    puts id + " " + name + point + " " + date
-#    puts url
+#    puts id + " " + name + point + " " + date
+    puts url
+   
   }
 }
  
