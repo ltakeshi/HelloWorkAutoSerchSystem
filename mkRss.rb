@@ -4,6 +4,7 @@
 require 'rss'
 require 'mechanize'
 require 'date'
+require 'nkf'
 
 class String
   def gsubs
@@ -26,6 +27,7 @@ end
 
 doc = Nokogiri::HTML(open("result.html"))
 agent = Mechanize.new
+
 rss = RSS::Maker.make("1.0") {|maker|
   xss = maker.xml_stylesheets.new_xml_stylesheet
   xss.href = "./rss2.css"
@@ -45,12 +47,12 @@ rss = RSS::Maker.make("1.0") {|maker|
       point = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.gsubs
       date = doc.xpath("//table[#{i}]/tr/td[9]")[j].text.dsub.gsubs
 #      puts id + " " + name  + " " + point + " " + date
-#      page = agent.get(url)
+      page = agent.get(url)
       item = maker.items.new_item
       item.title = id + " " +  name
       item.link = url
-      item.dc_subject = name
-      item.description = "就業場所: " + point
+      item.dc_subject = name + "  就業場所: " + point
+      item.description = agent.page.at("table").inner_html
       item.date = date.to_s
     }
   }
