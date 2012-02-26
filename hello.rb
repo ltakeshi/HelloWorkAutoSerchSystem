@@ -326,7 +326,8 @@ open(FILENAME1,"a"){|f|
   html_doc = Nokogiri::HTML(agent.page.body)
   html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table/tr[1]").remove
   open(FILENAME1,"a"){|f|
-    f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table").to_s.gsub!("\r\n","").gsub!("\n","").gsub!("\t","")
+#    f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table").to_s.gsub!("\r\n","").gsub!("\n","").gsub!("\t","")
+    f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
   }
   agent.page.form_with(:name => 'multiForm2'){|form|
     form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ

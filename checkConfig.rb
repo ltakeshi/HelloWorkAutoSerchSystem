@@ -10,7 +10,7 @@ class CheckConfig
   end
 
   def checkShokushu
-    if (@x == 'A' && @y.to_i.between?(1,20)) ||
+    if (@x == 'A' && @y.to_i.between?( 1,20)) ||
        (@x == 'B' && @y.to_i.between?(21,24)) || 
        (@x == 'C' && @y.to_i.between?(25,31)) || 
        (@x == 'D' && @y.to_i.between?(32,33)) || 
