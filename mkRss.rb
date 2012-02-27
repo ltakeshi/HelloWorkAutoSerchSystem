@@ -40,8 +40,8 @@ rss = RSS::Maker.make("1.0") {|maker|
   maker.items.do_sort = true
 
   (1..doc.xpath("//table").length).each{|i|
-    (0..doc.xpath("//table[1]/tr/td[4]").length - 1).each{|j|
-      id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].text
+    (0..doc.xpath("//table[#{i}]/tr/td[4]").length - 1).each{|j|
+      id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].text.gsubs
       name = doc.xpath("//table[#{i}]/tr/td[4]")[j].text.gsubs
       url = doc.xpath("//table[#{i}]/tr/td[3]/a")[j]["href"].gsubs
       page = agent.get(url)
