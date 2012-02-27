@@ -41,19 +41,19 @@ rss = RSS::Maker.make("1.0") {|maker|
 
   (1..doc.xpath("//table").length).each{|i|
     (0..doc.xpath("//table[1]/tr/td[4]").length - 1).each{|j|
-      id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].inner_html.gsubs
+      id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].text
       name = doc.xpath("//table[#{i}]/tr/td[4]")[j].text.gsubs
       url = doc.xpath("//table[#{i}]/tr/td[3]/a")[j]["href"].gsubs
+      page = agent.get(url)
+      desc = agent.page.at("table").inner_html
       point = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.gsubs
       date = doc.xpath("//table[#{i}]/tr/td[9]")[j].text.dsub.gsubs
-#      puts id + " " + name  + " " + point + " " + date
-      page = agent.get(url)
+##      puts id + " " + name  + " " + point + " " + date
       item = maker.items.new_item
       item.title = id + " " +  name
       item.link = url
       item.dc_subject = name + "  就業場所: " + point
-      item.description = agent.page.at("table").inner_html
-      item.date = date.to_s
+      item.description = desc
     }
   }
 }
