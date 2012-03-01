@@ -4,7 +4,6 @@
 require 'rss'
 require 'mechanize'
 require 'date'
-require 'nkf'
 
 class String
   def gsubs
@@ -23,39 +22,38 @@ class MkRss
   def to_s
     "#@x"
   end
-end
 
-doc = Nokogiri::HTML(open("result.html"))
-agent = Mechanize.new
+  def genRss
+    doc = Nokogiri::HTML(open(@x))
+    agent = Mechanize.new
+    rss = RSS::Maker.make("1.0") {|maker|
+      xss = maker.xml_stylesheets.new_xml_stylesheet
+      xss.href = "./rss2.css"
 
-rss = RSS::Maker.make("1.0") {|maker|
-  xss = maker.xml_stylesheets.new_xml_stylesheet
-  xss.href = "./rss2.css"
-
-  maker.channel.about = "htt://example.com/hass/rss.xml"
-  maker.channel.title = "ハローワーク本日の新着"
-  maker.channel.description = "HelloWorkAutoSerchSystem"
-  maker.channel.link = "https://www.hellowork.go.jp/"
+      maker.channel.about = "htt://example.com/hass/rss.xml"
+      maker.channel.title = "ハローワーク本日の新着"
+      maker.channel.description = "HelloWorkAutoSerchSystem"
+      maker.channel.link = "https://www.hellowork.go.jp/"
   
-  maker.items.do_sort = true
+      maker.items.do_sort = true
 
-  (1..doc.xpath("//table").length).each{|i|
-    (0..doc.xpath("//table[#{i}]/tr/td[4]").length - 1).each{|j|
-      id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].text.gsubs
-      name = doc.xpath("//table[#{i}]/tr/td[4]")[j].text.gsubs
-      url = doc.xpath("//table[#{i}]/tr/td[3]/a")[j]["href"].gsubs
-      page = agent.get(url)
-      desc = agent.page.at("table").inner_html
-      point = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.gsubs
-      date = doc.xpath("//table[#{i}]/tr/td[9]")[j].text.dsub.gsubs
-##      puts id + " " + name  + " " + point + " " + date
-      item = maker.items.new_item
-      item.title = id + " " +  name
-      item.link = url
-      item.dc_subject = name + "  就業場所: " + point
-      item.description = desc
+      (1..doc.xpath("//table").length).each{|i|
+        (0..doc.xpath("//table[#{i}]/tr/td[4]").length - 1).each{|j|
+          id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].text.gsubs
+          name = doc.xpath("//table[#{i}]/tr/td[4]")[j].text.gsubs
+          url = doc.xpath("//table[#{i}]/tr/td[3]/a")[j]["href"].gsubs
+          page = agent.get(url)
+          desc = agent.page.at("table").inner_html
+          point = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.gsubs
+          date = doc.xpath("//table[#{i}]/tr/td[9]")[j].text.dsub.gsubs
+          item = maker.items.new_item
+          item.title = id + " " +  name
+          item.link = url
+          item.dc_subject = name + "  就業場所: " + point
+          item.description = desc
+        }
+      }
     }
-  }
-}
-
-puts rss.to_s
+    rss.to_s
+  end
+end

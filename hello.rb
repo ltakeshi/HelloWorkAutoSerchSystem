@@ -12,6 +12,7 @@ require 'net/https'
 require 'fileutils'
 require 'yaml'
 require './checkConfig'
+require './mkRss'
 
 
 $config = YAML.load_file ARGV[0]
@@ -349,3 +350,11 @@ open(FILENAME1){|f|
 }
 
 FileUtils.rm(FILENAME1)
+
+# RSS生成
+if $config["custom"]["rss"] == 1
+  open(FILENAME2.gsub("html","xml"),"w"){|o|
+    rss = MkRss.new(FILENAME2).genRss
+    o.write rss
+  }
+end
