@@ -329,7 +329,7 @@ open(FILENAME1,"a"){|f|
   html_doc.xpath("//tr/td[1]").remove
 #  html_doc.xpath("//table").remove_attr("class")
   html_doc.xpath("//table").remove_attr("cellspacing")
-  html_doc.xpath("//table").remove_attr("style")
+#  html_doc.xpath("//table").remove_attr("style")
 #  html_doc.xpath("//table").set_attribute("border","1")
   html_doc.xpath("//td").remove_attr("style")
   html_doc.xpath("//td").remove_attr("class")

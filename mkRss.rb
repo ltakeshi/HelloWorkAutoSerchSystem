@@ -4,6 +4,7 @@
 require 'rss'
 require 'mechanize'
 require 'date'
+require './rss_cdata'
 
 class String
   def gsubs
@@ -28,7 +29,7 @@ class MkRss
     agent = Mechanize.new
     rss = RSS::Maker.make("1.0") {|maker|
       xss = maker.xml_stylesheets.new_xml_stylesheet
-      xss.href = "./rss2.css"
+      xss.href = "./rss.css"
 
       maker.channel.about = "htt://example.com/hass/rss.xml"
       maker.channel.title = "ハローワーク本日の新着"
@@ -38,19 +39,21 @@ class MkRss
       maker.items.do_sort = true
 
       (1..doc.xpath("//table").length).each{|i|
-        (0..doc.xpath("//table[#{i}]/tr/td[4]").length - 1).each{|j|
-          id = doc.xpath("//table[#{i}]/tr/td[3]/a")[j].text.gsubs
-          name = doc.xpath("//table[#{i}]/tr/td[4]")[j].text.gsubs
-          url = doc.xpath("//table[#{i}]/tr/td[3]/a")[j]["href"].gsubs
+        (0..doc.xpath("//table[#{i}]/tr/td[2]").length - 1).each{|j|
+          id = doc.xpath("//table[#{i}]/tr/td[2]/a")[j].text.gsubs
+          name = doc.xpath("//table[#{i}]/tr/td[3]")[j].text.gsubs
+          url = doc.xpath("//table[#{i}]/tr/td[2]/a")[j]["href"].gsubs
           page = agent.get(url)
           desc = agent.page.at("table").inner_html
-          point = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.gsubs
-          date = doc.xpath("//table[#{i}]/tr/td[9]")[j].text.dsub.gsubs
+          point = doc.xpath("//table[#{i}]/tr/td[7]")[j].text.gsubs
+          date = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.dsub.gsubs
           item = maker.items.new_item
           item.title = id + " " +  name
           item.link = url
           item.dc_subject = name + "  就業場所: " + point
           item.description = desc
+#          item.content_encoded = desc
+          item.date = date.to_s
         }
       }
     }

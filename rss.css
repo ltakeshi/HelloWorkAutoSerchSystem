@@ -1,0 +1,43 @@
+channel,title,item,description,link{
+    display: block;
+}
+channel, item {
+    border-width: 1px;
+    border-style: solid;
+    border-left-width: 4px;
+    border-left-style: double;
+    border-color:#444455;
+    width: 90%;
+    margin: 0.5em auto;
+    background-color: #ffffff;
+    padding:20px;
+}
+channel title{
+    font-size:150%;
+    font-weight: bold;
+    color:#555577;
+    margin-bottom: 0.5em;
+    background-color:#EEEEEE;
+    padding:5px 20px;
+    margin:-20px;
+    margin-bottom:10px;
+}
+item title {
+    font-size:110%;
+    font-weight: bold;
+    color:#555577;
+    margin-bottom: 0.5em;
+    background-color:#EEEEEE;
+    padding:5px 20px;
+    margin:-20px;
+    margin-bottom:10px;
+}
+
+description{
+    line-height:140%;
+}
+
+link {
+    text-decoration: underline;
+    margin-bottom: 3px;
+}
