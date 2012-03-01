@@ -1,0 +1,27 @@
+table.sole-small{
+    width: 1024px
+    border: 1px #D9D9D9 solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #000000;
+}
+.sole-small tr:hover td {
+    background: #3D80DF;
+    color: #FFFFFF;
+}
+.sole-small th{
+    padding: 5px;
+    border: #444444 1px solid;
+    background: #666666;
+    font-weight: bold;
+    line-height: 120%;
+}
+.sole-small td{
+    padding: 5px;
+    border: #D9D9D9 solid;
+    border-width: 1px 1px 1px 1px;
+}
+
+.wordBreak {
+    width: 300px
+}

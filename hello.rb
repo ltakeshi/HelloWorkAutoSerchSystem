@@ -11,8 +11,8 @@ require 'logger'
 require 'net/https'
 require 'fileutils'
 require 'yaml'
-require './checkConfig'
-require './mkRss'
+require_relative 'checkConfig'
+require_relative 'mkRss'
 
 
 $config = YAML.load_file ARGV[0]
@@ -319,15 +319,21 @@ pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").
 
 # 検索結果を取得、HTMLを生成
 open(FILENAME1,"a"){|f|
-  f.write "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<title>検索結果</title>\n</head>\n<body>"
+  f.write "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<link rel=\"stylesheet\" type=\"text/css\" href=\"html.css\">\n<title>検索結果</title>\n</head>\n<body>"
 }
 
 [getPageNum,pageNum].min.times{|i|
   puts (i+1).to_s + " page get"
   html_doc = Nokogiri::HTML(agent.page.body)
-  html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table/tr[1]").remove
+  html_doc.xpath("//tr[1]").remove
+  html_doc.xpath("//tr/td[1]").remove
+#  html_doc.xpath("//table").remove_attr("class")
+  html_doc.xpath("//table").remove_attr("cellspacing")
+  html_doc.xpath("//table").remove_attr("style")
+#  html_doc.xpath("//table").set_attribute("border","1")
+  html_doc.xpath("//td").remove_attr("style")
+  html_doc.xpath("//td").remove_attr("class")
   open(FILENAME1,"a"){|f|
-#    f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table").to_s.gsub!("\r\n","").gsub!("\n","").gsub!("\t","")
     f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
   }
   agent.page.form_with(:name => 'multiForm2'){|form|
@@ -354,6 +360,7 @@ FileUtils.rm(FILENAME1)
 # RSS生成
 if $config["custom"]["rss"] == 1
   open(FILENAME2.gsub("html","xml"),"w"){|o|
+    puts "Generate RSS"
     rss = MkRss.new(FILENAME2).genRss
     o.write rss
   }

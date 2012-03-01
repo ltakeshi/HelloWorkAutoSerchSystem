@@ -1,0 +1,83 @@
+/* Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+   The following software licensing rules apply:
+   http://www.w3.org/Consortium/Legal/copyright-software */
+
+/* $Id: style.css,v 1.15 2003/04/04 05:31:06 dom Exp $ */
+
+/* This stylesheet is used to give a basic layout for RSS 2.0 feeds */
+
+/* Add it to your RSS feed with
+
+<?xml-stylesheet href="http://www.w3.org/2000/08/w3c-synd/style.css" type="text/css"?>
+
+*/
+
+rss, channel, item, title, description, link {
+  display: block;
+}
+rss {
+    background-color: #eee;
+}
+image, language, managingEditor, webMaster, docs, copyright,
+lastBuildDate, pubDate, rating, day, hour,
+skipDays, skipHours, textinput, name, generator,guid {
+  display: none;
+}
+channel {
+    margin: 10px;
+    font-family: Verdana, Arial, sans-serif;
+}
+channel>title {
+    font-weight: bold;
+    text-align: left;
+    font-size: 1.4em;
+    padding-bottom: 0.5em;
+}
+channel>description {
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 200%;
+}
+channel>link {
+    font-size: 10px;
+    text-decoration: underline;
+}
+item {
+    z-index:1; 
+    margin: 10px 0;
+    padding: 15px;
+    border: 2px solid black; 
+    background-color: #ffffff;
+    width: 95%;
+    font-size: 12px;
+}
+item>title {
+    text-align: left;
+    margin: 3px 0;
+    padding-top: 2px;
+    font-weight: bold;
+    font-size: 20px;
+}
+item>description {
+    margin-top: 6pt;
+    font-size: 12px;
+    line-height: 150%;
+}
+item>link:before {
+    content: "URL: ";
+}
+item>link {
+    display: block;
+    margin: 10px 0 0 0;
+}
+item>category:before {
+    content: "Category: ";
+}
+item>category,
+item>pubDate {
+    display: block;
+    margin: 3px 0 0 0;
+}
+item>pubDate:before {
+    content: "Date: ";
+}
