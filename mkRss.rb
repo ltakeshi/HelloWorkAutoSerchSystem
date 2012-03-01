@@ -4,7 +4,6 @@
 require 'rss'
 require 'mechanize'
 require 'date'
-require './rss_cdata'
 
 class String
   def gsubs
