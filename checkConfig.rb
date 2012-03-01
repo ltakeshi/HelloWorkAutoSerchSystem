@@ -10,14 +10,14 @@ class CheckConfig
   end
 
   def checkShokushu
-    if (@x == 'A' && @y.to_i.between?( 1,20)) ||
-       (@x == 'B' && @y.to_i.between?(21,24)) || 
-       (@x == 'C' && @y.to_i.between?(25,31)) || 
-       (@x == 'D' && @y.to_i.between?(32,33)) || 
-       (@x == 'E' && @y.to_i.between?(34,39)) || 
-       (@x == 'F' && @y.to_i.between?(40,42)) || 
-       (@x == 'G' && @y.to_i.between?(43,45)) || 
-       (@x == 'H' && @y.to_i.between?(46,50)) || 
+    if (@x == 'A' && @y.to_i.between?( 1, 4)) ||
+       (@x == 'B' && @y.to_i.between?( 5,24)) ||
+       (@x == 'C' && @y.to_i.between?(25,31)) ||
+       (@x == 'D' && @y.to_i.between?(32,33)) ||
+       (@x == 'E' && @y.to_i.between?(34,39)) ||
+       (@x == 'F' && @y.to_i.between?(40,42)) ||
+       (@x == 'G' && @y.to_i.between?(43,45)) ||
+       (@x == 'H' && @y.to_i.between?(46,50)) ||
        (@x == 'I' && @y.to_i.between?(51,80))
       return 1
     else
