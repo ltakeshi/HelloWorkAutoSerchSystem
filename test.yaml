@@ -5,7 +5,7 @@ base:
 
 # 取得したいページ数を指定。各ページ20件ごとなのでページ数×20件の出力が得られる。
 # ただし、出力件数が指定以下の場合は、すべて出力。指定しなかった場合は10ページ出力される。
-  getPageNum: 10
+  getPageNum: 1
 
 # 求職登録有無欄
 # 求職登録している場合はkyushokuUmuの値は1。登録していなければ0。
@@ -46,8 +46,8 @@ base:
 # 46:鹿児島 47:沖縄 59:海外
 # *_chikuの部分には市区町村名を入力。空白で区切ることで複数地区を指定可能。
   todofuken1: 33
-  todofuken1_chiku: 34
-  todofuken2: 
+  todofuken1_chiku: 
+  todofuken2: 34
   todofuken2_chiku: 
   todofuken3: 
   todofuken3_chiku: 
@@ -276,4 +276,4 @@ detail:
 # これ以降は独自のオプション
 custom:
 # RSS生成させる場合は1を入力
-  rss: 1
+  rss: 

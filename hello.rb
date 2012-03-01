@@ -9,7 +9,6 @@
 require 'mechanize'
 require 'logger'
 require 'net/https'
-require 'fileutils'
 require 'yaml'
 require_relative 'checkConfig'
 require_relative 'mkRss'
@@ -17,12 +16,10 @@ require_relative 'mkRss'
 
 $config = YAML.load_file ARGV[0]
 
-FILENAME1 = "tmp.html"
-
 if $config["base"]["name"].nil?
-  FILENAME2 = "result.html"
+  FILENAME = "result.html"
 else
-  FILENAME2 = $config["base"]["name"] + ".html"
+  FILENAME = $config["base"]["name"] + ".html"
 end
 
 if $config["base"]["getPageNum"].nil?
@@ -318,50 +315,61 @@ end
 pageNum = (html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div/p").first.to_s.gsub(/\302\240/," ").split[2].to_f / 20).ceil
 
 # 検索結果を取得、HTMLを生成
-open(FILENAME1,"a"){|f|
-  f.write "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<link rel=\"stylesheet\" type=\"text/css\" href=\"html.css\">\n<title>検索結果</title>\n</head>\n<body>"
-}
-
-[getPageNum,pageNum].min.times{|i|
-  puts (i+1).to_s + " page get"
-  html_doc = Nokogiri::HTML(agent.page.body)
-  html_doc.xpath("//tr[1]").remove
-  html_doc.xpath("//tr/td[1]").remove
-#  html_doc.xpath("//table").remove_attr("class")
-  html_doc.xpath("//table").remove_attr("cellspacing")
-#  html_doc.xpath("//table").remove_attr("style")
-#  html_doc.xpath("//table").set_attribute("border","1")
-  html_doc.xpath("//td").remove_attr("style")
-  html_doc.xpath("//td").remove_attr("class")
-  open(FILENAME1,"a"){|f|
-    f.write html_doc.xpath("/html/body/div/div/div[4]/div/form[2]/div[2]/div[2]/table")
+#  puts (i+1).to_s + " page get"
+html_doc = Nokogiri::HTML(agent.page.body)
+builder = Nokogiri::HTML::Builder.new(:encoding => 'UTF-8'){
+  html{
+    head{
+      link(:rel => "stylesheet",:type => "text/css",:href => "html.css")
+      title "検索結果"
+    }
+    body{
+      table{
+        tr{
+          th "NO" 
+          th "求人番号"
+          th "職種"
+          th "雇用形態/賃金(税込)"
+          th "就業時間/休日/週休二日"
+          th "産業"
+          th "沿線/就業場所"
+          th "受理日"
+        }
+        [getPageNum,pageNum].min.times{
+          (2..html_doc.xpath("//div[2]/table/tr").length).each{|j|
+            tr{
+              url = html_doc.xpath("//table/tr[#{j}]/td[3]/a")[0]["href"].sub("./","https://www.hellowork.go.jp/servicef/")
+              td html_doc.xpath("//table/tr[#{j}]/td[2]")[0].text.gsubs
+              td {
+                a(:href => url, :target => "_blank") {text html_doc.xpath("//table/tr[#{j}]/td[3]")[0].text.gsubs}
+              }
+              td html_doc.xpath("//table/tr[#{j}]/td[4]")[0].text.gsubs
+              td html_doc.xpath("//table/tr[#{j}]/td[5]")[0].text.gsubs
+              td html_doc.xpath("//table/tr[#{j}]/td[6]")[0].text.gsubs
+              td html_doc.xpath("//table/tr[#{j}]/td[7]")[0].text.gsubs
+              td html_doc.xpath("//table/tr[#{j}]/td[8]")[0].text.gsubs
+              td html_doc.xpath("//table/tr[#{j}]/td[9]")[0].text.gsubs
+            }
+          }
+          agent.page.form_with(:name => 'multiForm2'){|form|
+            form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
+          }
+          html_doc = Nokogiri::HTML(agent.page.body)
+        }
+      }
+    }
   }
-  agent.page.form_with(:name => 'multiForm2'){|form|
-    form.click_button(form.button_with(:name => 'fwListNaviBtnNext')) # 次へ
-  }
 }
 
-open(FILENAME1,"a"){|f|
-  f.write "\n</body>\n</html>"
+open(FILENAME,"w"){|o|
+  o.write builder.to_html
 }
-
-# 生成したHTMLの相対URLを置換
-open(FILENAME1){|f|
-  open(FILENAME2,"w"){|o|
-    while line = f.gets
-      line = line.gsub("./130050.do","https://www.hellowork.go.jp/servicef/130050.do")
-      o.puts line
-    end
-  }
-}
-
-FileUtils.rm(FILENAME1)
 
 # RSS生成
 if $config["custom"]["rss"] == 1
-  open(FILENAME2.gsub("html","xml"),"w"){|o|
+  open(FILENAME.gsub("html","xml"),"w"){|o|
     puts "Generate RSS"
-    rss = MkRss.new(FILENAME2).genRss
+    rss = MkRss.new(FILENAME).genRss
     o.write rss
   }
 end

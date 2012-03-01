@@ -37,15 +37,15 @@ class MkRss
   
       maker.items.do_sort = true
 
-      (1..doc.xpath("//table").length).each{|i|
-        (0..doc.xpath("//table[#{i}]/tr/td[2]").length - 1).each{|j|
-          id = doc.xpath("//table[#{i}]/tr/td[2]/a")[j].text.gsubs
-          name = doc.xpath("//table[#{i}]/tr/td[3]")[j].text.gsubs
-          url = doc.xpath("//table[#{i}]/tr/td[2]/a")[j]["href"].gsubs
+#      (1..doc.xpath("//table").length).each{|i|
+        (0..doc.xpath("//table[1]/tr/td[2]").length - 1).each{|j|
+          id = doc.xpath("//table[1]/tr/td[2]/a")[j].text.gsubs
+          name = doc.xpath("//table[1]/tr/td[3]")[j].text.gsubs
+          url = doc.xpath("//table[1]/tr/td[2]/a")[j]["href"].gsubs
           page = agent.get(url)
           desc = agent.page.at("table").inner_html
-          point = doc.xpath("//table[#{i}]/tr/td[7]")[j].text.gsubs
-          date = doc.xpath("//table[#{i}]/tr/td[8]")[j].text.dsub.gsubs
+          point = doc.xpath("//table[1]/tr/td[7]")[j].text.gsubs
+          date = doc.xpath("//table[1]/tr/td[8]")[j].text.dsub.gsubs
           item = maker.items.new_item
           item.title = id + " " +  name
           item.link = url
@@ -54,7 +54,7 @@ class MkRss
 #          item.content_encoded = desc
           item.date = date.to_s
         }
-      }
+#      }
     }
     rss.to_s
   end
