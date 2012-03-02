@@ -1,0 +1,77 @@
+#+TITLE: HelloWorkAutoSerchSystemマニュアル
+#+AUTHOR: ltakeshi
+#+EMAIL: tuxtakeshi@gmail.com
+#+LANGUAGE: ja
+#+OPTIONS: creator:nil
+#+STYLE: <link rel="stylesheet" type="text/css" href="org.css">
+
+* HelloWorkAutoSerchSystem
+** 概要
+このプログラムは
+#+ATTR_HTML:  target="_blank"
+[[https://www.hellowork.go.jp/index.html][ハローワーク]]
+の検索を自動化するためのプログラムです。
+
+このプログラムはRubyのスクレイピング用ライブラリである"Mechanize"に依存しており、Ruby本体の他に"Mechanize"をインストールする必要があります。
+** 各プログラムについて
+*** hello.rb
+HelloWorkAutoSerchSystemのメインのプログラムです。ここからすべての処理が行われます。 
+
+主な処理は設定ファイルの読み込み、情報の取得、HTMLの生成です。
+*** checkConfig.rb
+設定ファイルの入力ミスを通知するためのライブラリです。[[hello.rb][hello.rb]]から呼ばれます。
+
+ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to\_s | checkShokushu | checkSangyo}を持ちます。
+使い方は以下のようになります。
+#+BEGIN_SRC ruby -n
+require_relative 'checkConfig'
+
+hoge,fuga = 'A',4
+CheckConfig.new(hoge,fuga).to_s #=> "(A,4)"
+CheckConfig.new(hoge,fuga).checkShokushu #=> 1
+
+hoge,fuga = 'A',5
+CheckConfig.new(hoge,fuga).checkShokushu #=> 0
+
+hoge,fuga = 'B',4
+CheckConfig.new(hoge,fuga).checkSangyo #=> 1
+
+hoge,fuga = 'B',90
+CheckConfig.new(hoge,fuga).checkSangyo #=> 0
+#+END_SRC
+*** mkRss.rb
+RSSを生成するためのライブラリです。ClassとしてMkRssを持ち、Stringの拡張も行っています。
+
+Stringの拡張されたメソッドは{gsubs | dsub}であり、MkRssはメソッドとして{to\_s | genRss}を持ちます。
+
+使い方は以下のようになります。checkConfigと違い出力が大量になるため、出力は省略しています。
+#+BEGIN_SRC ruby -n
+require_relative 'mkRss'
+
+HTML = open("hoge.html")
+open("foo.rdf","w"){|o|
+  rss = MkRss.new(HTML,"http://example.com/hass/rss.rdf").genRss
+  o.write rss
+}
+#+END_SRC
+MkRssクラスのインスタンス作成時の引数は二つとなっています。最初の引数はHTMLのテキストで、次の引数は出力される
+RSSのChannel要素のrdf:about属性を指定しています。
+** 設定ファイルについて
+*** config.yaml
+#+ATTR_HTML:  target="_blank"
+[[http://ja.wikipedia.org/wiki/YAML][yaml]]
+形式で記述されている設定ファイルです。"base"、"detail"、"custom"の三要素で構成されています。
+"base"は出力するファイル名と取得する最大ページ数と詳細検索を行うかどうか及び、
+ハローワークの基本的な検索するために必要な要素を指定するところになっています。
+"detail"は"base"において詳細検索を行うと指定した場合に使われる要素です。
+"custom"は本プログラムにて独自に使うオプションを指定する要素です。現状ではRSSに関してのみオプションがあり、
+独自機能が増えた場合、この要素でオプションを指定することになります。
+
+** その他
+*** html.css
+生成したHTMLに使われるCSSです。
+*** rss.css
+生成したRSSに使われるCSSです。RSSをブラウザで見る際に使われます。
+
+* 既知の問題
+ - フリーワード欄を指定しても反映されない

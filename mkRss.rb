@@ -15,12 +15,12 @@ class String
 end
 
 class MkRss
-  def initialize(x)
-    @x = x
+  def initialize(x,y)
+    @x,@y = x,y
   end
 
   def to_s
-    "#@x"
+    "(#@x,#@y)"
   end
 
   def genRss
@@ -30,7 +30,8 @@ class MkRss
       xss = maker.xml_stylesheets.new_xml_stylesheet
       xss.href = "./rss.css"
 
-      maker.channel.about = "htt://example.com/hass/rss.xml"
+      maker.channel.about = @y
+
       maker.channel.title = "ハローワーク本日の新着"
       maker.channel.description = "HelloWorkAutoSerchSystem"
       maker.channel.link = "https://www.hellowork.go.jp/"

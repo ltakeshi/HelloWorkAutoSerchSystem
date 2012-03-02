@@ -1,0 +1,25 @@
+/* 目次 */
+div#table-of-contents h2 {
+    display: none;
+}
+div#table-of-contents {
+    margin: 1em 30% 1em 2em;
+}
+div#text-table-of-contents {
+    background-color: #e8e8e8;
+    padding: 0.5em;
+    border: 1px dotted black;
+}
+
+#outline-container-1{
+    width:auto;
+    float:right;
+}
+#outline-container-2{
+    width:auto;
+    float:right;
+}
+#postamble {
+     width:100%;
+     clear:left;
+}

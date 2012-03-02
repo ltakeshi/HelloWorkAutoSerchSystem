@@ -365,7 +365,13 @@ if $config["custom"]["rss"] == 1
 # RSS生成
   open(FILENAME.sub("html","rdf"),"w"){|o|
     puts "Generate RSS"
-    rss = MkRss.new(builder.to_html).genRss
+    if $config["custom"]["about"] != nil
+      about = $config["custom"]["about"]
+    else
+      about = "http://example.com/hass/rss.rdf"
+    end
+
+    rss = MkRss.new(builder.to_html,about).genRss
     o.write rss
   }
 else

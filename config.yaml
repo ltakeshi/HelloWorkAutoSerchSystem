@@ -277,3 +277,6 @@ detail:
 custom:
 # RSS生成させる場合は1を入力
   rss: 
+  
+# 生成したRSSのabout欄
+  about: 
