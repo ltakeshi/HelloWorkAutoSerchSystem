@@ -1,0 +1,16 @@
+Javascriptの自動生成を切る場合
+M-x customize-variable RET org-export-html-style-include-scripts
+`org-export-projects-alist':
+     :style-include-scripts nil
+
+CSSの自動生成を切る場合
+M-x customize-variable org-export-html-style-include-default RET
+`org-export-projects-alist':
+    :style-include-default nil
+
+もしくは.emacsに
+(custom-set-variables
+;; CSS無効
+ '(org-export-html-style-include-default nil)
+;; Javascript無効
+ '(org-export-html-style-include-scripts nil))

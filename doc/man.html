@@ -7,66 +7,13 @@ lang="ja" xml:lang="ja">
 <title>HelloWorkAutoSerchSystemマニュアル</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-03-02 14:43:53 JST"/>
+<meta name="generated" content="2012-03-02 17:32:54 JST"/>
 <meta name="author" content="ltakeshi"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  html { font-family: Times, serif; font-size: 12pt; }
-  .title  { text-align: center; }
-  .todo   { color: red; }
-  .done   { color: green; }
-  .tag    { background-color: #add8e6; font-weight:normal }
-  .target { }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  p.verse { margin-left: 3% }
-  pre {
-	border: 1pt solid #AEBDCC;
-	background-color: #F3F5F7;
-	padding: 5pt;
-	font-family: courier, monospace;
-        font-size: 90%;
-        overflow:auto;
-  }
-  table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
-  dt { font-weight: bold; }
-  div.figure { padding: 0.5em; }
-  div.figure p { text-align: center; }
-  .linenr { font-size:smaller }
-  .code-highlighted {background-color:#ffff00;}
-  .org-info-js_info-navigation { border-style:none; }
-  #org-info-js_console-label { font-size:10px; font-weight:bold;
-                               white-space:nowrap; }
-  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
-                                 font-weight:bold; }
-  /*]]>*/-->
-</style>
+
 <link rel="stylesheet" type="text/css" href="org.css">
-<script type="text/javascript">
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
+
 </head>
 <body>
 <div id="content">
@@ -75,7 +22,7 @@ lang="ja" xml:lang="ja">
 
 
 <div id="table-of-contents">
-<h2>目次</h2>
+<h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1 HelloWorkAutoSerchSystem </a>
@@ -157,20 +104,20 @@ ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to_s
 </p>
 
 
-<pre class="src src-ruby"><span class="linenr"> 1:  </span>require_relative <span style="color: #00ff00;">'checkConfig'</span>
+<pre class="src src-ruby"><span class="linenr"> 1:  </span>require_relative <span style="color: #ffff00;">'checkConfig'</span>
 <span class="linenr"> 2:  </span>
-<span class="linenr"> 3:  </span>hoge,fuga = <span style="color: #00ff00;">'A'</span>,4
-<span class="linenr"> 4:  </span><span style="color: #00ff00;">CheckConfig</span>.new(hoge,fuga).to_s <span style="color: #ff0000;">#</span>=&gt; "(A,4)"
-<span class="linenr"> 5:  </span><span style="color: #00ff00;">CheckConfig</span>.new(hoge,fuga).checkShokushu <span style="color: #ff0000;">#</span>=&gt; 1
+<span class="linenr"> 3:  </span>hoge,fuga = <span style="color: #ffff00;">'A'</span>,4
+<span class="linenr"> 4:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).to_s 
+<span class="linenr"> 5:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkShokushu
 <span class="linenr"> 6:  </span>
-<span class="linenr"> 7:  </span>hoge,fuga = <span style="color: #00ff00;">'A'</span>,5
-<span class="linenr"> 8:  </span><span style="color: #00ff00;">CheckConfig</span>.new(hoge,fuga).checkShokushu <span style="color: #ff0000;">#</span>=&gt; 0
+<span class="linenr"> 7:  </span>hoge,fuga = <span style="color: #ffff00;">'A'</span>,5
+<span class="linenr"> 8:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkShokushu
 <span class="linenr"> 9:  </span>
-<span class="linenr">10:  </span>hoge,fuga = <span style="color: #00ff00;">'B'</span>,4
-<span class="linenr">11:  </span><span style="color: #00ff00;">CheckConfig</span>.new(hoge,fuga).checkSangyo <span style="color: #ff0000;">#</span>=&gt; 1
+<span class="linenr">10:  </span>hoge,fuga = <span style="color: #ffff00;">'B'</span>,4
+<span class="linenr">11:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkSangyo
 <span class="linenr">12:  </span>
-<span class="linenr">13:  </span>hoge,fuga = <span style="color: #00ff00;">'B'</span>,90
-<span class="linenr">14:  </span><span style="color: #00ff00;">CheckConfig</span>.new(hoge,fuga).checkSangyo <span style="color: #ff0000;">#</span>=&gt; 0
+<span class="linenr">13:  </span>hoge,fuga = <span style="color: #ffff00;">'B'</span>,90
+<span class="linenr">14:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkSangyo
 </pre>
 
 
@@ -193,11 +140,11 @@ Stringの拡張されたメソッドは{gsubs | dsub}であり、MkRssはメソ�
 </p>
 
 
-<pre class="src src-ruby"><span class="linenr">1:  </span>require_relative <span style="color: #00ff00;">'mkRss'</span>
+<pre class="src src-ruby"><span class="linenr">1:  </span>require_relative <span style="color: #ffff00;">'mkRss'</span>
 <span class="linenr">2:  </span>
-<span class="linenr">3:  </span><span style="color: #00ff00;">HTML</span> = open(<span style="color: #00ff00;">"hoge.html"</span>)
-<span class="linenr">4:  </span>open(<span style="color: #00ff00;">"foo.rdf"</span>,<span style="color: #00ff00;">"w"</span>){|o|
-<span class="linenr">5:  </span>  rss = <span style="color: #00ff00;">MkRss</span>.new(<span style="color: #00ff00;">HTML</span>,<span style="color: #00ff00;">"http://example.com/hass/rss.rdf"</span>).genRss
+<span class="linenr">3:  </span><span style="color: #ffff00;">HTML</span> = open(<span style="color: #ffff00;">"hoge.html"</span>)
+<span class="linenr">4:  </span>open(<span style="color: #ffff00;">"foo.rdf"</span>,<span style="color: #ffff00;">"w"</span>){|o|
+<span class="linenr">5:  </span>  rss = <span style="color: #ffff00;">MkRss</span>.new(<span style="color: #ffff00;">HTML</span>,<span style="color: #ffff00;">"http://example.com/hass/rss.rdf"</span>).genRss
 <span class="linenr">6:  </span>  o.write rss
 <span class="linenr">7:  </span>}
 </pre>
@@ -276,10 +223,10 @@ RSSのChannel要素のrdf:about属性を指定しています。
 </div>
 </div>
 <div id="postamble">
-<p class="author"> 作者: ltakeshi
+<p class="author"> Author: ltakeshi
 <a href="mailto:tuxtakeshi@gmail.com">&lt;tuxtakeshi@gmail.com&gt;</a>
 </p>
-<p class="date"> 日付: 2012-03-02 14:43:53 JST</p>
+<p class="date"> Date: 2012-03-02 17:32:54 JST</p>
 </div>
 </div>
 </body>

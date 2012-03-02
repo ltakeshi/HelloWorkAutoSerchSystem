@@ -27,17 +27,17 @@ ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to\_
 require_relative 'checkConfig'
 
 hoge,fuga = 'A',4
-CheckConfig.new(hoge,fuga).to_s #=> "(A,4)"
-CheckConfig.new(hoge,fuga).checkShokushu #=> 1
+CheckConfig.new(hoge,fuga).to_s 
+CheckConfig.new(hoge,fuga).checkShokushu
 
 hoge,fuga = 'A',5
-CheckConfig.new(hoge,fuga).checkShokushu #=> 0
+CheckConfig.new(hoge,fuga).checkShokushu
 
 hoge,fuga = 'B',4
-CheckConfig.new(hoge,fuga).checkSangyo #=> 1
+CheckConfig.new(hoge,fuga).checkSangyo
 
 hoge,fuga = 'B',90
-CheckConfig.new(hoge,fuga).checkSangyo #=> 0
+CheckConfig.new(hoge,fuga).checkSangyo
 #+END_SRC
 *** mkRss.rb
 RSSを生成するためのライブラリです。ClassとしてMkRssを持ち、Stringの拡張も行っています。
