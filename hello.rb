@@ -363,7 +363,7 @@ builder = Nokogiri::HTML::Builder.new(:encoding => 'UTF-8'){
 
 if $config["custom"]["rss"] == 1
 # RSS生成
-  open(FILENAME.sub("html","xml"),"w"){|o|
+  open(FILENAME.sub("html","rdf"),"w"){|o|
     puts "Generate RSS"
     rss = MkRss.new(builder.to_html).genRss
     o.write rss
