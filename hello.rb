@@ -34,7 +34,7 @@ agent = Mechanize.new
 
 # 検索トップページ
 page = agent.get("https://www.hellowork.go.jp/servicef/130020.do?action=initDisp&screenId=130020")
-agent.user_agent_alias = 'Linux Firefox'
+agent.user_agent_alias = 'Windows IE 7'
 
 # 検索ページ
 agent.page.form_with(:name => 'mainForm'){|form|
@@ -363,7 +363,7 @@ builder = Nokogiri::HTML::Builder.new(:encoding => 'UTF-8'){
 
 if $config["custom"]["rss"] == 1
 # RSS生成
-  open(FILENAME.gsub("html","rdf"),"w"){|o|
+  open(FILENAME.sub("html","xml"),"w"){|o|
     puts "Generate RSS"
     rss = MkRss.new(builder.to_html).genRss
     o.write rss
