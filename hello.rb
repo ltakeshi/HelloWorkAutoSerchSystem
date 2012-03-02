@@ -367,7 +367,7 @@ open(FILENAME,"w"){|o|
 
 # RSS生成
 if $config["custom"]["rss"] == 1
-  open(FILENAME.gsub("html","xml"),"w"){|o|
+  open(FILENAME.gsub("html","rdf"),"w"){|o|
     puts "Generate RSS"
     rss = MkRss.new(FILENAME).genRss
     o.write rss
