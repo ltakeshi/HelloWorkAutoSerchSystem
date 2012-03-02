@@ -1,0 +1,26 @@
+div#content {
+    width: 800px;
+}
+div#table-of-contents {
+    float: left;
+    width: 300px;
+}
+div#table-of-contents h2 {
+    display: none;
+}
+div#table-of-contents {
+#    margin: 1em 30% 1em 2em;
+}
+div#text-table-of-contents {
+#    background-color: #e8e8e8;
+#    padding: 0.5em;
+#    border: 1px dotted black;
+}
+div.outline-2 {
+    float: right;
+    width: 500px;
+}
+div#postamble {
+    clear: both;
+    width: 800px;
+}
