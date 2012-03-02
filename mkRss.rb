@@ -24,7 +24,7 @@ class MkRss
   end
 
   def genRss
-    doc = Nokogiri::HTML(open(@x))
+    doc = Nokogiri::HTML(@x)
     agent = Mechanize.new
     rss = RSS::Maker.make("1.0") {|maker|
       xss = maker.xml_stylesheets.new_xml_stylesheet

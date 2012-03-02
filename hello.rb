@@ -348,7 +348,7 @@ builder = Nokogiri::HTML::Builder.new(:encoding => 'UTF-8'){
               td html_doc.xpath("//table/tr[#{j}]/td[6]")[0].text.gsubs
               td html_doc.xpath("//table/tr[#{j}]/td[7]")[0].text.gsubs
               td html_doc.xpath("//table/tr[#{j}]/td[8]")[0].text.gsubs
-              td html_doc.xpath("//table/tr[#{j}]/td[9]")[0].text.gsubs
+              td html_doc.xpath("//table/tr[#{j}]/td[9]")[0].text.gsubs.dsub
             }
           }
           agent.page.form_with(:name => 'multiForm2'){|form|
@@ -361,15 +361,16 @@ builder = Nokogiri::HTML::Builder.new(:encoding => 'UTF-8'){
   }
 }
 
-open(FILENAME,"w"){|o|
-  o.write builder.to_html
-}
-
-# RSS生成
 if $config["custom"]["rss"] == 1
-  open(FILENAME.gsub("html","xml"),"w"){|o|
+# RSS生成
+  open(FILENAME.sub("html","xml"),"w"){|o|
     puts "Generate RSS"
-    rss = MkRss.new(FILENAME).genRss
+    rss = MkRss.new(builder.to_html).genRss
     o.write rss
+  }
+else
+#HTML出力
+  open(FILENAME,"w"){|o|
+    o.write builder.to_html
   }
 end
