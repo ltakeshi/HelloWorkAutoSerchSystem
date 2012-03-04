@@ -1,0 +1,47 @@
+.title {
+    text-align: left;
+    background-color: #003366;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+#table-of-contents {
+    float: left;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid;
+    h2 {
+	display: none;
+    }
+    ul {
+	padding: 0px 0px 0px 20px;
+    }
+    li {
+	list-style-image: none;
+	list-style-type: none;
+	text-align: left;
+    }
+    a {
+	display: block;
+	width: 100%;
+	color: #003366;
+	&:hover {
+	    background-color: #ffff99;
+	}
+    }
+}
+
+#postamble {
+    clear: both;
+    text-align: right;
+    font-size: 60%;
+    border-top: 1px solid;
+}
+
+.outline-2 {
+    float: right;
+    width: 80%;
+    font-size: 90%;
+}
+
