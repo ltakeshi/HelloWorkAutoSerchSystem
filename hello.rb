@@ -368,7 +368,7 @@ if $config["custom"]["rss"] == 1
     if $config["custom"]["about"] != nil
       about = $config["custom"]["about"]
     else
-      about = "http://example.com/hass/rss.rdf"
+      about = "http://example.com/rss.rdf"
     end
 
     rss = MkRss.new(builder.to_html,about).genRss

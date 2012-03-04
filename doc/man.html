@@ -7,13 +7,66 @@ lang="ja" xml:lang="ja">
 <title>HelloWorkAutoSerchSystemマニュアル</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-03-02 17:32:54 JST"/>
+<meta name="generated" content="2012-03-04 01:07:49 JST"/>
 <meta name="author" content="ltakeshi"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
-
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
 <link rel="stylesheet" type="text/css" href="org.css">
-
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
 </head>
 <body>
 <div id="content">
@@ -28,26 +81,28 @@ lang="ja" xml:lang="ja">
 <li><a href="#sec-1">1 HelloWorkAutoSerchSystem </a>
 <ul>
 <li><a href="#sec-1.1">1.1 概要 </a></li>
-<li><a href="#sec-1.2">1.2 各プログラムについて </a>
+<li><a href="#sec-1.2">1.2 使い方 </a></li>
+<li><a href="#sec-1.3">1.3 各プログラムについて </a>
 <ul>
-<li><a href="#sec-1.2.1">1.2.1 hello.rb </a></li>
-<li><a href="#sec-1.2.2">1.2.2 checkConfig.rb </a></li>
-<li><a href="#sec-1.2.3">1.2.3 mkRss.rb </a></li>
+<li><a href="#sec-1.3.1">1.3.1 hello.rb </a></li>
+<li><a href="#sec-1.3.2">1.3.2 checkConfig.rb </a></li>
+<li><a href="#sec-1.3.3">1.3.3 mkRss.rb </a></li>
 </ul>
 </li>
-<li><a href="#sec-1.3">1.3 設定ファイルについて </a>
+<li><a href="#sec-1.4">1.4 設定ファイルについて </a>
 <ul>
-<li><a href="#sec-1.3.1">1.3.1 config.yaml </a></li>
+<li><a href="#sec-1.4.1">1.4.1 config.yaml </a></li>
 </ul>
 </li>
-<li><a href="#sec-1.4">1.4 その他 </a>
+<li><a href="#sec-1.5">1.5 その他 </a>
 <ul>
-<li><a href="#sec-1.4.1">1.4.1 html.css </a></li>
-<li><a href="#sec-1.4.2">1.4.2 rss.css </a></li>
-</ul></li>
+<li><a href="#sec-1.5.1">1.5.1 html.css </a></li>
+<li><a href="#sec-1.5.2">1.5.2 rss.css </a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2 既知の問題 </a></li>
+<li><a href="#sec-1.6">1.6 既知の問題 </a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -55,6 +110,7 @@ lang="ja" xml:lang="ja">
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> HelloWorkAutoSerchSystem </h2>
 <div class="outline-text-2" id="text-1">
+
 
 
 </div>
@@ -68,21 +124,50 @@ lang="ja" xml:lang="ja">
 の検索を自動化するためのプログラムです。
 </p>
 <p>
-このプログラムはRubyのスクレイピング用ライブラリである"Mechanize"に依存しており、Ruby本体の他に"Mechanize"をインストールする必要があります。
-</p></div>
+このプログラムはRubyのスクレイピング用ライブラリである"Nokogiri"とウェブサイトのアクセスを自動化するライブラリ"Mechanize"に依存しており、
+Ruby本体の他に"Nokogiri"と"Mechanize"をインストールする必要があります。
+また、ruby1.9.2以降に対応しています。
+</p>
+
+</div>
 
 </div>
 
 <div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 各プログラムについて </h3>
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 使い方 </h3>
 <div class="outline-text-3" id="text-1.2">
+
+<ul>
+<li>
+USAGE
+<ul>
+<li>
+設定ファイルを編集する
+</li>
+<li>
+$ ./hello.rb config.yaml
+</li>
+<li>
+設定によりHTMLかRSSが出力される。
+
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="section-number-3">1.3</span> 各プログラムについて </h3>
+<div class="outline-text-3" id="text-1.3">
 
 
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> hello.rb </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1.3.1" class="outline-4">
+<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> hello.rb </h4>
+<div class="outline-text-4" id="text-1.3.1">
 
 <p>HelloWorkAutoSerchSystemのメインのプログラムです。ここからすべての処理が行われます。 
 </p>
@@ -92,11 +177,11 @@ lang="ja" xml:lang="ja">
 
 </div>
 
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> checkConfig.rb </h4>
-<div class="outline-text-4" id="text-1.2.2">
+<div id="outline-container-1.3.2" class="outline-4">
+<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> checkConfig.rb </h4>
+<div class="outline-text-4" id="text-1.3.2">
 
-<p>設定ファイルの入力ミスを通知するためのライブラリです。<a href="#sec-1.2.1">hello.rb</a>から呼ばれます。
+<p>設定ファイルの入力ミスを通知するためのライブラリです。<a href="#sec-1.2">hello.rb</a>から呼ばれます。
 </p>
 <p>
 ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to_s | checkShokushu | checkSangyo}を持ちます。
@@ -104,21 +189,21 @@ ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to_s
 </p>
 
 
-<pre class="src src-ruby"><span class="linenr"> 1:  </span>require_relative <span style="color: #ffff00;">'checkConfig'</span>
+<pre class="src src-ruby"><span class="linenr"> 1:  </span>require_relative <span class="org-string">'checkConfig'</span> 
 <span class="linenr"> 2:  </span>
-<span class="linenr"> 3:  </span>hoge,fuga = <span style="color: #ffff00;">'A'</span>,4
-<span class="linenr"> 4:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).to_s 
-<span class="linenr"> 5:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkShokushu
-<span class="linenr"> 6:  </span>
-<span class="linenr"> 7:  </span>hoge,fuga = <span style="color: #ffff00;">'A'</span>,5
-<span class="linenr"> 8:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkShokushu
-<span class="linenr"> 9:  </span>
-<span class="linenr">10:  </span>hoge,fuga = <span style="color: #ffff00;">'B'</span>,4
-<span class="linenr">11:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkSangyo
-<span class="linenr">12:  </span>
-<span class="linenr">13:  </span>hoge,fuga = <span style="color: #ffff00;">'B'</span>,90
-<span class="linenr">14:  </span><span style="color: #ffff00;">CheckConfig</span>.new(hoge,fuga).checkSangyo
-</pre>
+<span class="linenr"> 3:  </span>hoge,fuga = <span class="org-string">'A'</span>,4
+<span class="linenr"> 4:  </span><span class="org-type">CheckConfig</span>.new(hoge,fuga).to_s <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; "(A,4)"
+<span class="linenr"> 5:  </span></span><span class="org-type">CheckConfig</span>.new(hoge,fuga).checkShokushu <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; 1
+<span class="linenr"> 6:  </span></span>
+<span class="linenr"> 7:  </span>hoge,fuga = <span class="org-string">'A'</span>,5
+<span class="linenr"> 8:  </span><span class="org-type">CheckConfig</span>.new(hoge,fuga).checkShokushu <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; 0
+<span class="linenr"> 9:  </span></span>
+<span class="linenr">10:  </span>hoge,fuga = <span class="org-string">'B'</span>,4
+<span class="linenr">11:  </span><span class="org-type">CheckConfig</span>.new(hoge,fuga).checkSangyo <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; 1
+<span class="linenr">12:  </span></span>
+<span class="linenr">13:  </span>hoge,fuga = <span class="org-string">'B'</span>,90
+<span class="linenr">14:  </span><span class="org-type">CheckConfig</span>.new(hoge,fuga).checkSangyo <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; 0
+</span></pre>
 
 
 
@@ -126,9 +211,9 @@ ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to_s
 
 </div>
 
-<div id="outline-container-1.2.3" class="outline-4">
-<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> mkRss.rb </h4>
-<div class="outline-text-4" id="text-1.2.3">
+<div id="outline-container-1.3.3" class="outline-4">
+<h4 id="sec-1.3.3"><span class="section-number-4">1.3.3</span> mkRss.rb </h4>
+<div class="outline-text-4" id="text-1.3.3">
 
 <p>RSSを生成するためのライブラリです。ClassとしてMkRssを持ち、Stringの拡張も行っています。
 </p>
@@ -140,11 +225,11 @@ Stringの拡張されたメソッドは{gsubs | dsub}であり、MkRssはメソ�
 </p>
 
 
-<pre class="src src-ruby"><span class="linenr">1:  </span>require_relative <span style="color: #ffff00;">'mkRss'</span>
+<pre class="src src-ruby"><span class="linenr">1:  </span>require_relative <span class="org-string">'mkRss'</span>
 <span class="linenr">2:  </span>
-<span class="linenr">3:  </span><span style="color: #ffff00;">HTML</span> = open(<span style="color: #ffff00;">"hoge.html"</span>)
-<span class="linenr">4:  </span>open(<span style="color: #ffff00;">"foo.rdf"</span>,<span style="color: #ffff00;">"w"</span>){|o|
-<span class="linenr">5:  </span>  rss = <span style="color: #ffff00;">MkRss</span>.new(<span style="color: #ffff00;">HTML</span>,<span style="color: #ffff00;">"http://example.com/hass/rss.rdf"</span>).genRss
+<span class="linenr">3:  </span><span class="org-type">HTML</span> = open(<span class="org-string">"hoge.html"</span>)
+<span class="linenr">4:  </span>open(<span class="org-string">"foo.rdf"</span>,<span class="org-string">"w"</span>){|o|
+<span class="linenr">5:  </span>  rss = <span class="org-type">MkRss</span>.new(<span class="org-type">HTML</span>,<span class="org-string">"http://example.com/hass/rss.rdf"</span>).genRss
 <span class="linenr">6:  </span>  o.write rss
 <span class="linenr">7:  </span>}
 </pre>
@@ -154,21 +239,22 @@ Stringの拡張されたメソッドは{gsubs | dsub}であり、MkRssはメソ�
 <p>
 MkRssクラスのインスタンス作成時の引数は二つとなっています。最初の引数はHTMLのテキストで、次の引数は出力される
 RSSのChannel要素のrdf:about属性を指定しています。
-</p></div>
+</p>
+</div>
 </div>
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> 設定ファイルについて </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="section-number-3">1.4</span> 設定ファイルについて </h3>
+<div class="outline-text-3" id="text-1.4">
 
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> config.yaml </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1.4.1" class="outline-4">
+<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> config.yaml </h4>
+<div class="outline-text-4" id="text-1.4.1">
 
 <p><a href="http://ja.wikipedia.org/wiki/YAML"target="_blank">yaml</a>
 形式で記述されている設定ファイルです。"base"、"detail"、"custom"の三要素で構成されています。
@@ -178,55 +264,204 @@ RSSのChannel要素のrdf:about属性を指定しています。
 "custom"は本プログラムにて独自に使うオプションを指定する要素です。現状ではRSSに関してのみオプションがあり、
 独自機能が増えた場合、この要素でオプションを指定することになります。
 </p>
+<p>
+以下各設定項目の詳細です。
+</p><ul>
+<li>
+base
+<ul>
+<li>
+このプログラム独自の項目
+<dl>
+<dt>name</dt><dd>
+出力時のファイル名を指定します。入力しなかった場合は"result.{html | rdf}"が使われます。
+</dd>
+<dt>getPageNum</dt><dd>
+取得したいページ数を指定できます。取得できるページ数が指定より下回っていた場合は、最後のページを取得できた時点で次の処理に移行します。
+</dd>
+<dt>syousai</dt><dd>
+詳細検索をしたい場合に1にします。1以外のものが入力されていた場合は詳細検索を行いません。
+</dd>
+</dl>
+</li>
+<li>
+求職登録有無
+<dl>
+<dt>kyushokuUmu</dt><dd>
+求職登録の有無を確認します。これに1が入っていた場合はラジオボタン"ハローワークに求職登録している"にチェックを入れます。それ以外のものが入力された場合は"ハローワークには求職登録していない"にチェックを入れます。
+</dd>
+<dt>kyushokuNumber1</dt><dd>
+求職番号の前半の半角数字5桁の部分です。kyushokuUmuに1を入れた場合は入力してください。
+</dd>
+<dt>kyushokuNumber2</dt><dd>
+求職番号の後半の半角数字8桁の部分です。kyushokuUmuに1を入れた場合は入力してください。
+</dd>
+</dl>
+</li>
+<li>
+求人情報の種類
+</li>
+<li>
+派遣・請負
+</li>
+<li>
+賃金
+</li>
+<li>
+希望する職種
+</li>
+<li>
+都道府県/市区町村名
+</li>
+<li>
+年齢
+</li>
+<li>
+新着求人
+</li>
+<li>
+希望する産業
+</li>
+<li>
+最終学歴
+</li>
+<li>
+既卒者の応募
+</li>
+</ul>
+</li>
+<li>
+detail
+<ul>
+<li>
+雇用形態
+</li>
+<li>
+契約更新の可能性   
+</li>
+<li>
+マイカー通勤
+</li>
+<li>
+フリーワード
+</li>
+<li>
+加入保険
+</li>
+<li>
+住込
+</li>
+<li>
+入居可能住宅
+</li>
+<li>
+利用可能な託児所
+</li>
+<li>
+賞与
+</li>
+<li>
+希望する休日
+</li>
+<li>
+週休二日
+</li>
+<li>
+年間休日数
+</li>
+<li>
+週所定労働日数
+</li>
+<li>
+時間外
+</li>
+<li>
+希望する就業時間
+</li>
+<li>
+転勤
+</li>
+<li>
+免許・資格
+</li>
+<li>
+学歴
+</li>
+<li>
+経験
+</li>
+<li>
+事業所名
+</li>
+</ul>
+</li>
+<li>
+custom
+<dl>
+<dt>rss</dt><dd>
+RSSを出力する場合に指定します。このオプションが指定された場合はHTMLは出力されません。
+</dd>
+<dt>about</dt><dd>
+rdf:about属性でチャンネルのURI(通常このRSS自身のURI)を示します。入力しなかった場合は"<a href="http://example.com/rss.rdf"">http://example.com/rss.rdf"</a> が入力されます。
+
+
+</dd>
+</dl>
+</li>
+</ul>
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> その他 </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1.5" class="outline-3">
+<h3 id="sec-1.5"><span class="section-number-3">1.5</span> その他 </h3>
+<div class="outline-text-3" id="text-1.5">
 
 
 </div>
 
-<div id="outline-container-1.4.1" class="outline-4">
-<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> html.css </h4>
-<div class="outline-text-4" id="text-1.4.1">
+<div id="outline-container-1.5.1" class="outline-4">
+<h4 id="sec-1.5.1"><span class="section-number-4">1.5.1</span> html.css </h4>
+<div class="outline-text-4" id="text-1.5.1">
 
-<p>生成したHTMLに使われるCSSです。
+<p>生成したHTMLに使われるCSSです。基本的にはtableに関する設定しか行われていません。
 </p></div>
 
 </div>
 
-<div id="outline-container-1.4.2" class="outline-4">
-<h4 id="sec-1.4.2"><span class="section-number-4">1.4.2</span> rss.css </h4>
-<div class="outline-text-4" id="text-1.4.2">
+<div id="outline-container-1.5.2" class="outline-4">
+<h4 id="sec-1.5.2"><span class="section-number-4">1.5.2</span> rss.css </h4>
+<div class="outline-text-4" id="text-1.5.2">
 
 <p>生成したRSSに使われるCSSです。RSSをブラウザで見る際に使われます。
 </p>
-</div>
+
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> 既知の問題 </h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-1.6" class="outline-3">
+<h3 id="sec-1.6"><span class="section-number-3">1.6</span> 既知の問題 </h3>
+<div class="outline-text-3" id="text-1.6">
 
 <ul>
 <li>
 フリーワード欄を指定しても反映されない
 </li>
+<li>
+and more (要はあまり見つけられてない)
+</li>
 </ul>
+</div>
 </div>
 </div>
 <div id="postamble">
 <p class="author"> Author: ltakeshi
 <a href="mailto:tuxtakeshi@gmail.com">&lt;tuxtakeshi@gmail.com&gt;</a>
 </p>
-<p class="date"> Date: 2012-03-02 17:32:54 JST</p>
+<p class="date"> Date: 2012-03-04 01:07:49 JST</p>
 </div>
 </div>
 </body>

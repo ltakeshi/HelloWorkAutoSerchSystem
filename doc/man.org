@@ -6,13 +6,24 @@
 #+STYLE: <link rel="stylesheet" type="text/css" href="org.css">
 
 * HelloWorkAutoSerchSystem
+
 ** 概要
 このプログラムは
 #+ATTR_HTML:  target="_blank"
 [[https://www.hellowork.go.jp/index.html][ハローワーク]]
 の検索を自動化するためのプログラムです。
 
-このプログラムはRubyのスクレイピング用ライブラリである"Mechanize"に依存しており、Ruby本体の他に"Mechanize"をインストールする必要があります。
+このプログラムはRubyのスクレイピング用ライブラリである"Nokogiri"とウェブサイトのアクセスを自動化するライブラリ"Mechanize"に依存しており、
+Ruby本体の他に"Nokogiri"と"Mechanize"をインストールする必要があります。
+また、ruby1.9.2以降に対応しています。
+
+
+** 使い方
+ - USAGE
+   - 設定ファイルを編集する
+   - $ ./hello.rb config.yaml
+   - 設定によりHTMLかRSSが出力される。
+
 ** 各プログラムについて
 *** hello.rb
 HelloWorkAutoSerchSystemのメインのプログラムです。ここからすべての処理が行われます。 
@@ -24,20 +35,20 @@ HelloWorkAutoSerchSystemのメインのプログラムです。ここからす�
 ClassとしてCheckConfigを持ち、CheckConfigのメソッドとして、{to\_s | checkShokushu | checkSangyo}を持ちます。
 使い方は以下のようになります。
 #+BEGIN_SRC ruby -n
-require_relative 'checkConfig'
+require_relative 'checkConfig' 
 
 hoge,fuga = 'A',4
-CheckConfig.new(hoge,fuga).to_s 
-CheckConfig.new(hoge,fuga).checkShokushu
+CheckConfig.new(hoge,fuga).to_s #=> "(A,4)"
+CheckConfig.new(hoge,fuga).checkShokushu #=> 1
 
 hoge,fuga = 'A',5
-CheckConfig.new(hoge,fuga).checkShokushu
+CheckConfig.new(hoge,fuga).checkShokushu #=> 0
 
 hoge,fuga = 'B',4
-CheckConfig.new(hoge,fuga).checkSangyo
+CheckConfig.new(hoge,fuga).checkSangyo #=> 1
 
 hoge,fuga = 'B',90
-CheckConfig.new(hoge,fuga).checkSangyo
+CheckConfig.new(hoge,fuga).checkSangyo #=> 0
 #+END_SRC
 *** mkRss.rb
 RSSを生成するためのライブラリです。ClassとしてMkRssを持ち、Stringの拡張も行っています。
@@ -56,6 +67,7 @@ open("foo.rdf","w"){|o|
 #+END_SRC
 MkRssクラスのインスタンス作成時の引数は二つとなっています。最初の引数はHTMLのテキストで、次の引数は出力される
 RSSのChannel要素のrdf:about属性を指定しています。
+
 ** 設定ファイルについて
 *** config.yaml
 #+ATTR_HTML:  target="_blank"
@@ -67,11 +79,59 @@ RSSのChannel要素のrdf:about属性を指定しています。
 "custom"は本プログラムにて独自に使うオプションを指定する要素です。現状ではRSSに関してのみオプションがあり、
 独自機能が増えた場合、この要素でオプションを指定することになります。
 
+以下各設定項目の詳細です。
+ - base
+   - このプログラム独自の項目
+     - name :: 出力時のファイル名を指定します。入力しなかった場合は"result.{html | rdf}"が使われます。
+     - getPageNum :: 取得したいページ数を指定できます。取得できるページ数が指定より下回っていた場合は、最後のページを取得できた時点で次の処理に移行します。
+     - syousai :: 詳細検索をしたい場合に1にします。1以外のものが入力されていた場合は詳細検索を行いません。
+   - 求職登録有無
+     - kyushokuUmu :: 求職登録の有無を確認します。これに1が入っていた場合はラジオボタン"ハローワークに求職登録している"にチェックを入れます。それ以外のものが入力された場合は"ハローワークには求職登録していない"にチェックを入れます。
+     - kyushokuNumber1 :: 求職番号の前半の半角数字5桁の部分です。kyushokuUmuに1を入れた場合は入力してください。
+     - kyushokuNumber2 :: 求職番号の後半の半角数字8桁の部分です。kyushokuUmuに1を入れた場合は入力してください。
+   - 求人情報の種類
+   - 派遣・請負
+   - 賃金
+   - 希望する職種
+   - 都道府県/市区町村名
+   - 年齢
+   - 新着求人
+   - 希望する産業
+   - 最終学歴
+   - 既卒者の応募
+ - detail
+   - 雇用形態
+   - 契約更新の可能性   
+   - マイカー通勤
+   - フリーワード
+   - 加入保険
+   - 住込
+   - 入居可能住宅
+   - 利用可能な託児所
+   - 賞与
+   - 希望する休日
+   - 週休二日
+   - 年間休日数
+   - 週所定労働日数
+   - 時間外
+   - 希望する就業時間
+   - 転勤
+   - 免許・資格
+   - 学歴
+   - 経験
+   - 事業所名
+ - custom
+   - rss :: RSSを出力する場合に指定します。このオプションが指定された場合はHTMLは出力されません。
+   - about :: rdf:about属性でチャンネルのURI(通常このRSS自身のURI)を示します。入力しなかった場合は"http://example.com/rss.rdf" が入力されます。
+
+
 ** その他
 *** html.css
-生成したHTMLに使われるCSSです。
+生成したHTMLに使われるCSSです。基本的にはtableに関する設定しか行われていません。
 *** rss.css
 生成したRSSに使われるCSSです。RSSをブラウザで見る際に使われます。
 
-* 既知の問題
+
+** 既知の問題
  - フリーワード欄を指定しても反映されない
+ - and more (要はあまり見つけられてない)
