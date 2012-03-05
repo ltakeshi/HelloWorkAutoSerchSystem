@@ -62,7 +62,8 @@ agent.page.form_with(:name => 'mainForm'){|form|
     form.checkbox_with(:text => /派遣・請負を除く/).check
   end
 
-# 賃金
+# 賃金 (一部未実装)
+# 時給と月給or時給の場合分け
   form['gekkyuKagen'] = $config["base"]["gekkyuKagen"]
   if $config["base"]["kyujinShurui"] == 2
     form.checkbox_with(:text => /手当等を含む/).uncheck

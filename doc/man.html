@@ -7,7 +7,7 @@ lang="ja" xml:lang="ja">
 <title>HelloWorkAutoSerchSystemマニュアル</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-03-04 01:07:49 JST"/>
+<meta name="generated" content="2012-03-05 14:57:38 JST"/>
 <meta name="author" content="ltakeshi"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -44,7 +44,6 @@ lang="ja" xml:lang="ja">
                                  font-weight:bold; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="org.css">
 <script type="text/javascript">
 <!--/*--><![CDATA[/*><!--*/
  function CodeHighlightOn(elem, id)
@@ -75,7 +74,7 @@ lang="ja" xml:lang="ja">
 
 
 <div id="table-of-contents">
-<h2>Table of Contents</h2>
+<h2>目次</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1 HelloWorkAutoSerchSystem </a>
@@ -123,12 +122,12 @@ lang="ja" xml:lang="ja">
 <a href="https://www.hellowork.go.jp/index.html"target="_blank">ハローワーク</a>
 の検索を自動化するためのプログラムです。
 </p>
+
 <p>
 このプログラムはRubyのスクレイピング用ライブラリである"Nokogiri"とウェブサイトのアクセスを自動化するライブラリ"Mechanize"に依存しており、
 Ruby本体の他に"Nokogiri"と"Mechanize"をインストールする必要があります。
 また、ruby1.9.2以降に対応しています。
 </p>
-
 </div>
 
 </div>
@@ -300,33 +299,143 @@ base
 </li>
 <li>
 求人情報の種類
+<dl>
+<dt>kyujinShurui</dt><dd>
+一般{フルタイム | パート} か学生かを数字にて選択。それぞれ1,2,3に割り当てられています。
+</dd>
+</dl>
 </li>
 <li>
 派遣・請負
+<dl>
+<dt>hakenOrUkeoi</dt><dd>
+派遣・請負を除く場合は1を入力。
+</dd>
+</dl>
 </li>
 <li>
-賃金
+賃金 (一部未実装)
+<dl>
+<dt>gekkyuKagen</dt><dd>
+入力した金額以上の月給で検索されます。
+</dd>
+<dt>teate</dt><dd>
+手当て等を含みたい場合に1を入力。その他のものを入力しても無効。
+</dd>
+<dt>jikyuKagen</dt><dd>
+(未実装) 入力した金額以上の月給で検索されます。
+</dd>
+</dl>
 </li>
 <li>
 希望する職種
+<dl>
+<dt>kiboShokushu</dt><dd>
+希望する職種を職業分類コード一覧における職業大分類をアルファベットにて指定します。アルファベットと分類の対応は以下の通り。
+<table  border="1" cellspacing="10" cellpadding="5" rules="all" frame="border" class="tablestandard">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col"></th><th scope="col">h職業大分類</th></tr>
+</thead>
+<tbody>
+<tr><td>A</td><td>管理的職業</td></tr>
+<tr><td>B</td><td>専門的・技術的職業</td></tr>
+<tr><td>C</td><td>事務的職業</td></tr>
+<tr><td>D</td><td>販売の職業</td></tr>
+<tr><td>E</td><td>サービスの職業</td></tr>
+<tr><td>F</td><td>保安の職業</td></tr>
+<tr><td>G</td><td>農林漁業の職業</td></tr>
+<tr><td>H</td><td>運輸・通信の職業</td></tr>
+<tr><td>I</td><td>生産工程・労務の職業</td></tr>
+</tbody>
+</table>
+
+</dd>
+</dl>
 </li>
 <li>
 都道府県/市区町村名
+<dl>
+<dt>todofuken{1 | 2 | 3 | 4 | 5}</dt><dd>
+それぞれ都道府県を数字にて選択します。対応表は作るのが大変なので略。
+</dd>
+<dt>todofuken{1 | 2 | 3 | 4 | 5}_chiku</dt><dd>
+地区名を入力。"千代田区"等と入力します。
+</dd>
+</dl>
 </li>
 <li>
 年齢
+<dl>
+<dt>nenrei</dt><dd>
+その名の通り、年齢。
+</dd>
+</dl>
 </li>
 <li>
 新着求人
+<dl>
+<dt>shinchakuKyujin</dt><dd>
+前営業日に登録された新しい求人のみを検索する場合は1を入力します。
+</dd>
+</dl>
 </li>
 <li>
 希望する産業
+<dl>
+<dt>kiboSangyo</dt><dd>
+希望する産業をアルファベットにて指定します。アルファベットと産業の対応は以下の通り。
+<table  border="1" cellspacing="10" cellpadding="5" rules="all" frame="border" class="tablestandard">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col"></th><th scope="col">産業</th></tr>
+</thead>
+<tbody>
+<tr><td>A</td><td>農業，林業</td></tr>
+<tr><td>B</td><td>漁業</td></tr>
+<tr><td>C</td><td>鉱業，採石業，砂利採取業</td></tr>
+<tr><td>D</td><td>建設業</td></tr>
+<tr><td>E</td><td>製造業</td></tr>
+<tr><td>F</td><td>電気・ガス・熱供給・水道業</td></tr>
+<tr><td>G</td><td>情報通信業</td></tr>
+<tr><td>H</td><td>運輸業，郵便業</td></tr>
+<tr><td>I</td><td>卸売業・小売業</td></tr>
+<tr><td>J</td><td>金融業・保険業</td></tr>
+<tr><td>K</td><td>不動産業，物品賃貸業</td></tr>
+<tr><td>L</td><td>学術研究，専門・技術サービス業</td></tr>
+<tr><td>M</td><td>宿泊業，飲食サービス業</td></tr>
+<tr><td>N</td><td>生活関連サービス業，娯楽業</td></tr>
+<tr><td>O</td><td>教育，学習支援業</td></tr>
+<tr><td>P</td><td>医療，福祉</td></tr>
+<tr><td>Q</td><td>複合サービス事業</td></tr>
+<tr><td>R</td><td>サービス業（他に分類されないも</td></tr>
+<tr><td>S</td><td>公務（他に分類されるものを除く</td></tr>
+<tr><td>T</td><td>分類不能の産業</td></tr>
+</tbody>
+</table>
+
+</dd>
+</dl>
 </li>
 <li>
-最終学歴
+最終学歴(未実装)
+<dl>
+<dt>saishuGakureki</dt><dd>
+"求人情報の種類"で学生を選択した場合に選択。
+</dd>
+</dl>
 </li>
 <li>
-既卒者の応募
+既卒者の応募(未実装)
+<dl>
+<dt>zennendoSotsugyo</dt><dd>
+"求人情報の種類"で学生を選択した場合に選択。
+</dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -335,7 +444,53 @@ detail
 <ul>
 <li>
 雇用形態
+<dl>
+<dt>koyoKeitai</dt><dd>
+雇用形態を数字で指定。数字と形態の対応表は以下の通り。
+</dd>
+</dl>
 </li>
+</ul>
+</li>
+</ul>
+
+<p>一般(フルタイム)の場合の選択肢
+</p><table  border="1" cellspacing="10" cellpadding="5" rules="all" frame="border" class="tablestandard">
+<caption></caption>
+<colgroup><col align="right" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col"></th><th scope="col">雇用形態</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>正社員</td></tr>
+<tr><td>2</td><td>正社員以外</td></tr>
+<tr><td>3</td><td>登録型派遣</td></tr>
+<tr><td>4</td><td>常用型派遣</td></tr>
+</tbody>
+</table>
+
+
+
+<p>
+一般(パート)の場合の選択肢
+</p><table  border="1" cellspacing="10" cellpadding="5" rules="all" frame="border" class="tablestandard">
+<caption></caption>
+<colgroup><col align="right" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col"></th><th scope="col">雇用形態</th></tr>
+</thead>
+<tbody>
+<tr><td>5</td><td>パート労働者</td></tr>
+<tr><td>6</td><td>登録型派遣パート</td></tr>
+<tr><td>7</td><td>常用型派遣パート</td></tr>
+</tbody>
+</table>
+
+
+
+<ul>
 <li>
 契約更新の可能性   
 </li>
@@ -393,8 +548,6 @@ detail
 <li>
 事業所名
 </li>
-</ul>
-</li>
 <li>
 custom
 <dl>
@@ -403,7 +556,6 @@ RSSを出力する場合に指定します。このオプションが指定さ�
 </dd>
 <dt>about</dt><dd>
 rdf:about属性でチャンネルのURI(通常このRSS自身のURI)を示します。入力しなかった場合は"<a href="http://example.com/rss.rdf"">http://example.com/rss.rdf"</a> が入力されます。
-
 
 </dd>
 </dl>
@@ -448,20 +600,24 @@ rdf:about属性でチャンネルのURI(通常このRSS自身のURI)を示しま
 
 <ul>
 <li>
+自分が使う機能の実装を急いだため、基本的な部分において未実装な部分が存在する。
+</li>
+<li>
 フリーワード欄を指定しても反映されない
 </li>
 <li>
 and more (要はあまり見つけられてない)
+
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div id="postamble">
-<p class="author"> Author: ltakeshi
+<p class="author"> 作者: ltakeshi
 <a href="mailto:tuxtakeshi@gmail.com">&lt;tuxtakeshi@gmail.com&gt;</a>
 </p>
-<p class="date"> Date: 2012-03-04 01:07:49 JST</p>
+<p class="date"> 日付: 2012-03-05 14:57:38 JST</p>
 </div>
 </div>
 </body>
